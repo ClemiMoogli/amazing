@@ -1,5 +1,6 @@
 from parser.config_parser import read_config_file
 from maze.maze import Maze
+from maze.render import print_maze
 from typing import Dict
 
 
@@ -24,5 +25,6 @@ def main():
     maze.create_perfect_maze()
     maze.print_maze()
     maze.generate_maze_output()
+    print_maze()
 
 main()
