@@ -9,41 +9,8 @@
 # class cell ? a = 1, b = 1, c = 1, d = 1
 
 from parser import read_config_file
+from .cell import Cell
 import random
-
-
-class Cell:
-    def __init__(self, x: int, y: int, width:int):
-        self.x = x
-        self.y = y
-        self.identity = y * width + x
-        self.wall = [1, 1, 1, 1]
-
-    def is_wall_open(self, wall_nb:int) -> bool:
-        """check if the given wall number is already opened, if open return True"""
-        if self.wall[wall_nb] == 1:
-            return False
-        return True
-
-    def open_wall(self, wall_nb: int) -> None:
-        """change the wall value to 0 to open it"""
-        self.wall[wall_nb] = 0
-
-    def show_cell_hexa(self) -> str:
-        """return the cell as an hexa value"""
-        hexa_tab = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
-                    "C", "D", "E", "F"]
-        a = b = c = d = 0
-        if self.wall[0] == 1:
-            a = 1
-        if self.wall[1] == 1:
-            b = 2
-        if self.wall[2] == 1:
-            c = 4
-        if self.wall[3] == 1:
-            d = 8
-        total = a + b + c + d
-        return hexa_tab[total]
 
 
 class Maze:
@@ -77,6 +44,19 @@ class Maze:
                 if cell:
                     print(cell.show_cell_hexa(), end="")
             print()
+
+    def generate_maze_output(self, output_file="output_maze.txt") -> None:
+        """Generate the Hex format of the maze and save it in the output file."""
+        with open(output_file, "a") as f:
+            for y in range(self.height):
+                for x in range(self.width):
+                    cell = self.maze.get((x, y))
+                    if cell:
+
+                        f.write(f"{cell.show_cell_hexa()}")
+                f.write("\n")           
+            
+
 
     def create_perfect_maze(self) -> None:
         """
@@ -116,10 +96,11 @@ class Maze:
                     if cell.identity == old_identity:
                         cell.identity = new_identity
 
+#def main():
+#    maze = Maze(10, 10)
+#    maze.create_perfect_maze()
+#    maze.print_maze()
+#    maze.generate_maze_output()
+    #print(convert_hex_to_binary("1A"))
+#main()
 
-def main():
-    maze = Maze(10, 10)
-    maze.create_perfect_maze()
-    maze.print_maze()
-
-main()
