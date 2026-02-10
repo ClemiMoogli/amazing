@@ -4,13 +4,14 @@ from maze.render import print_maze
 from typing import Dict
 
 
-def is_valid_config(config:Dict) -> bool:
+def is_valid_config(config: Dict) -> bool:
     """Function to check if the configuration file is in a valid format.
 
     Keywords arguments:
     config -- the maze configuration dictionnary.
     """
     return True
+
 
 def main():
     config = read_config_file()
@@ -26,5 +27,6 @@ def main():
     maze.print_maze()
     maze.generate_maze_output()
     print_maze()
+
 
 main()

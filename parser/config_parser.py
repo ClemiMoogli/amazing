@@ -1,4 +1,3 @@
-
 def read_config_file(file_path: str = "config.txt") -> dict:
     """Function to read the configuration file.
 
@@ -13,5 +12,3 @@ def read_config_file(file_path: str = "config.txt") -> dict:
                 split_line = l.split(sep="=", maxsplit=1)
                 dict_config[split_line[0]] = split_line[1]
     return dict_config
-
-
