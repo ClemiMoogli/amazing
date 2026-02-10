@@ -52,7 +52,7 @@ class Maze:
     def generate_maze_output(self, output_file="output_maze.txt") -> None:
         """Generate the Hex format of the maze and save it in the
         output file."""
-        with open(output_file, "a") as f:
+        with open(output_file, "w") as f:
             for y in range(self.height):
                 for x in range(self.width):
                     cell = self.maze.get((x, y))

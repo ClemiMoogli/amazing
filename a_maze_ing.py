@@ -13,8 +13,8 @@ def is_valid_config(config: Dict) -> bool:
     return True
 
 
-def main():
-    config = read_config_file()
+def main(config_file:str="config.txt"):
+    config = read_config_file(config_file)
     if not is_valid_config(config):
         print("Invalid configuration, please check")
         return
