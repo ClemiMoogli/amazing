@@ -23,7 +23,16 @@ def main():
         return
     print(config)
     maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')))
-    maze.create_perfect_maze()
+    perfect = config.get('PERFECT')
+    entry = config.get('ENTRY')
+    entry = tuple(map(int, entry.split(',')))
+    exit = config.get('EXIT')
+    exit = tuple(map(int, exit.split(',')))
+
+    if perfect is True:
+        maze.create_perfect_maze()
+    else:
+        maze.create_imperfect_maze(entry, exit)
     maze.print_maze()
     maze.generate_maze_output()
     print_maze()

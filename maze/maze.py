@@ -86,6 +86,7 @@ class Maze:
                 if y + 1 < self.height:
                     walls_list.append(((x, y), (x, y + 1), 2))
 
+        random.seed(2)
         random.shuffle(walls_list)
 
         for (x_a, y_a), (x_b, y_b), direction in walls_list:
@@ -100,6 +101,51 @@ class Maze:
                 for cell in self.maze.values():
                     if cell.identity == old_identity:
                         cell.identity = new_identity
+
+    def create_imperfect_maze(self, entry: tuple, exit: tuple) -> None:
+        """
+        Create an imperfect maze with the same logic as the perfect.
+        Here we open walls until the identity of entry and exit are the same.
+
+        :param self: the maze
+        :param entry: entry point
+        :type entry: tuple
+        :param exit: exit point
+        :type exit: tuple
+        """
+        # creer la liste des murs, definir entry cell et exit cell
+        # faire du open jusqu'a se que identity de open == identity de exit?
+        walls_list = []
+
+        for y in range(self.height):
+            for x in range(self.width):
+                if x + 1 < self.width:
+                    walls_list.append(((x, y), (x + 1, y), 1))
+                if y + 1 < self.height:
+                    walls_list.append(((x, y), (x, y + 1), 2))
+
+        random.seed(2)
+        random.shuffle(walls_list)
+        entry_cell = self.maze[entry]
+        exit_cell = self.maze[exit]
+
+        while entry_cell.identity != exit_cell.identity:
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                if entry_cell.identity != exit_cell.identity:
+                    cell_a = self.maze[(x_a, y_a)]
+                    cell_b = self.maze[(x_b, y_b)]
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
+                else:
+                    break
+
+
 
 # def main():
 #    maze = Maze(10, 10)
