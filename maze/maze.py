@@ -105,7 +105,8 @@ class Maze:
     def create_imperfect_maze(self, entry: tuple, exit: tuple) -> None:
         """
         Create an imperfect maze with the same logic as the perfect.
-        Here we open walls until the identity of entry and exit are the same.
+        Here we open walls until the identity of entry and exit are the same,
+        then we open wall until all the walls have the same identity
 
         :param self: the maze
         :param entry: entry point
@@ -129,21 +130,34 @@ class Maze:
         entry_cell = self.maze[entry]
         exit_cell = self.maze[exit]
 
-        while entry_cell.identity != exit_cell.identity:
-            for (x_a, y_a), (x_b, y_b), direction in walls_list:
-                if entry_cell.identity != exit_cell.identity:
-                    cell_a = self.maze[(x_a, y_a)]
-                    cell_b = self.maze[(x_b, y_b)]
-                    cell_a.open_wall(direction)
-                    second_wall = (direction + 2) % 4
-                    cell_b.open_wall(second_wall)
-                    old_identity = cell_b.identity
-                    new_identity = cell_a.identity
-                    for cell in self.maze.values():
-                        if cell.identity == old_identity:
-                            cell.identity = new_identity
-                else:
-                    break
+        for (x_a, y_a), (x_b, y_b), direction in walls_list:
+            if entry_cell.identity != exit_cell.identity:
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                cell_a.open_wall(direction)
+                second_wall = (direction + 2) % 4
+                cell_b.open_wall(second_wall)
+                old_identity = cell_b.identity
+                new_identity = cell_a.identity
+                for cell in self.maze.values():
+                    if cell.identity == old_identity:
+                        cell.identity = new_identity
+            else:
+                pass
+        
+        for (x_a, y_a), (x_b, y_b), direction in walls_list:
+            cell_a = self.maze[(x_a, y_a)]
+            cell_b = self.maze[(x_b, y_b)]
+            if cell_a.identity != cell_b.identity:
+                cell_a.open_wall(direction)
+                second_wall = (direction + 2) % 4
+                cell_b.open_wall(second_wall)
+                old_identity = cell_b.identity
+                new_identity = cell_a.identity
+                for cell in self.maze.values():
+                    if cell.identity == old_identity:
+                        cell.identity = new_identity
+                
 
 
 
