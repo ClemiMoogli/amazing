@@ -19,7 +19,7 @@ class Maze:
     """
     The maze class.
     """
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, entry: tuple, exit: tuple):
         """
         Initialize the maze as a dictionnary. The key is tuple (x, y) with x
         as the width
@@ -27,8 +27,33 @@ class Maze:
         (cell number), used
         for the algo, and the hexa value of the walls.
         """
-        self.width = width
-        self.height = height
+        try:
+            if width <= 0:
+                raise ValueError("width must be > 0")
+            self.width = width
+            if height <= 0:
+                raise ValueError("height must be > 0")
+            self.height = height
+            if entry == exit:
+                raise ValueError("entry and exit must be different")
+            for nb in entry:
+                if isinstance(nb, int) is False:
+                    raise ValueError("entry coordinate must be numbers")
+                if nb < 0:
+                    raise ValueError("entry coordinate must be equal or superior to 0")
+            if len(entry) > 2 or len(entry) < 2:
+                raise ValueError("entry coordinate must be of format x,y")
+            self.entry = entry
+            for nb in exit:
+                if isinstance(nb, int) is False:
+                    raise ValueError("exit coordinate must be numbers")
+                if nb < 0:
+                    raise ValueError("exit coordinate must be equal or superior to 0")
+            if len(exit) > 2 or len(exit) < 2:
+                raise ValueError("exit coordinate must be of format x,y")
+            self.exit = exit
+        except ValueError as e:
+            print(f"Error creating maze class: {e}")
         self.maze = {(x, y): Cell(x, y, width)
                      for y in range(height)
                      for x in range(width)}
@@ -52,7 +77,7 @@ class Maze:
     def generate_maze_output(self, output_file="output_maze.txt") -> None:
         """Generate the Hex format of the maze and save it in the
         output file."""
-        with open(output_file, "a") as f:
+        with open(output_file, "w") as f:
             for y in range(self.height):
                 for x in range(self.width):
                     cell = self.maze.get((x, y))
@@ -102,7 +127,7 @@ class Maze:
                     if cell.identity == old_identity:
                         cell.identity = new_identity
 
-    def create_imperfect_maze(self, entry: tuple, exit: tuple) -> None:
+    def create_imperfect_maze(self) -> None:
         """
         Create an imperfect maze with the same logic as the perfect.
         Here we open walls until the identity of entry and exit are the same,
@@ -127,8 +152,8 @@ class Maze:
 
         random.seed(2)
         random.shuffle(walls_list)
-        entry_cell = self.maze[entry]
-        exit_cell = self.maze[exit]
+        entry_cell = self.maze[self.entry]
+        exit_cell = self.maze[self.exit]
 
         for (x_a, y_a), (x_b, y_b), direction in walls_list:
             if entry_cell.identity != exit_cell.identity:
