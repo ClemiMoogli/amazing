@@ -28,12 +28,8 @@ def main(config_file: str = "config.txt"):
     entry_loc = tuple(map(int, entry_loc.split(',')))
     exit_loc = config.get('EXIT')
     exit_loc = tuple(map(int, exit_loc.split(',')))
-<<<<<<< HEAD
-=======
     maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')),
                 entry_loc, exit_loc)
->>>>>>> main
-
     print("entry: ", entry_loc)
     print("exit: ", exit_loc)
     if perfect == 'True':
