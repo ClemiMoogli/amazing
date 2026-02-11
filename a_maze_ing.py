@@ -1,6 +1,7 @@
 from parser.config_parser import read_config_file
 from maze.maze import Maze
 from maze.render import print_maze
+from solver.bfs import bfs_solver
 from typing import Dict
 
 
@@ -24,18 +25,22 @@ def main(config_file:str="config.txt"):
     print(config)
     maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')))
     perfect = config.get('PERFECT')
-    entry = config.get('ENTRY')
-    entry = tuple(map(int, entry.split(',')))
-    exit = config.get('EXIT')
-    exit = tuple(map(int, exit.split(',')))
+    entry_loc = config.get('ENTRY')
+    entry_loc = tuple(map(int, entry_loc.split(',')))
+    exit_loc = config.get('EXIT')
+    exit_loc = tuple(map(int, exit_loc.split(',')))
 
-    if perfect is True:
+    print("entry: ", entry_loc)
+    print("exit: ", exit_loc)
+    if perfect == 'True':
+        print("perfect")
         maze.create_perfect_maze()
     else:
-        maze.create_imperfect_maze(entry, exit)
+        print("imperfect")
+        maze.create_imperfect_maze(entry_loc, exit_loc)
     maze.print_maze()
     maze.generate_maze_output()
-    print_maze()
-
+    print_maze("output_maze.txt", entry_loc, exit_loc)
+    print(bfs_solver(maze, entry_loc, exit_loc))
 
 main()
