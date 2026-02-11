@@ -24,9 +24,6 @@ def main(config_file: str = "config.txt"):
         return
     print(config)
     perfect = config.get('PERFECT')
-<<<<<<< HEAD
-
-=======
     entry_loc = config.get('ENTRY')
     entry_loc = tuple(map(int, entry_loc.split(',')))
     exit_loc = config.get('EXIT')
@@ -34,18 +31,14 @@ def main(config_file: str = "config.txt"):
     maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')),
                 entry_loc, exit_loc)
 
->>>>>>> 94ccefb (update: bfs solver)
-
     print("entry: ", entry_loc)
     print("exit: ", exit_loc)
     if perfect == 'True':
         print("perfect")
         maze.create_perfect_maze()
     else:
-<<<<<<< HEAD
         print("imperfect")
         maze.create_imperfect_maze(entry_loc, exit_loc)
->>>>>>> 94ccefb (update: bfs solver)
     maze.print_maze()
     maze.generate_maze_output()
     print_maze("output_maze.txt", entry_loc, exit_loc)
