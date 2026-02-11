@@ -12,6 +12,7 @@ class Cell:
         self.y = y
         self.identity = y * width + x
         self.wall = [1, 1, 1, 1]
+        self.is_reserved = False
 
     def is_wall_open(self, wall_nb: int) -> bool:
         """check if the given wall number is already opened, if open
