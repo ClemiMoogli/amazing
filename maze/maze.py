@@ -13,13 +13,14 @@
 
 from .cell import Cell
 import random
+from math import floor
 
 
 class Maze:
     """
     The maze class.
     """
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, entry: tuple, exit: tuple):
         """
         Initialize the maze as a dictionnary. The key is tuple (x, y) with x
         as the width
@@ -27,8 +28,51 @@ class Maze:
         (cell number), used
         for the algo, and the hexa value of the walls.
         """
-        self.width = width
-        self.height = height
+        try:
+            if width <= 0:
+                raise ValueError("width must be > 0")
+            self.width = width
+            if height <= 0:
+                raise ValueError("height must be > 0")
+            self.height = height
+            if self.width > 7 and self.height > 6:
+                self.ft_x = floor((self.width - 6) / 2)
+                self.ft_y = floor((self.height - 5) / 2)
+                self.res_xy = [(self.ft_x, self.ft_y), (self.ft_x + 2, self.ft_y),
+                               (self.ft_x + 4, self.ft_y), (self.ft_x + 5, self.ft_y),
+                               (self.ft_x, self.ft_y + 1), (self.ft_x + 2, self.ft_y + 1),
+                               (self.ft_x + 5, self.ft_y + 1), (self.ft_x, self.ft_y + 2),
+                               (self.ft_x + 1, self.ft_y + 2), (self.ft_x + 2, self.ft_y + 2),
+                               (self.ft_x + 4, self.ft_y + 2), (self.ft_x + 5, self.ft_y + 2),
+                               (self.ft_x, self.ft_y), (self.ft_x + 2, self.ft_y + 3),
+                               (self.ft_x + 4, self.ft_y + 3), (self.ft_x + 2, self.ft_y + 4),
+                               (self.ft_x + 4, self.ft_y + 4), (self.ft_x + 5, self.ft_y + 4)]
+            if entry == exit:
+                raise ValueError("entry and exit must be different")
+            if entry in self.res_xy or exit in self.res_xy:
+                raise ValueError("please change entry and exit coord, they are in the 42 pattern")
+            for nb in entry:
+                if isinstance(nb, int) is False:
+                    raise ValueError("entry coordinate must be numbers")
+                if nb < 0:
+                    raise ValueError("entry coordinate must be equal or superior to 0")
+            if len(entry) > 2 or len(entry) < 2:
+                raise ValueError("entry coordinate must be of format x,y")
+            if entry[0] > self.width or entry[1] > self.height:
+                raise ValueError("Entry point must be in the maze")
+            self.entry = entry
+            for nb in exit:
+                if isinstance(nb, int) is False:
+                    raise ValueError("exit coordinate must be numbers")
+                if nb < 0:
+                    raise ValueError("exit coordinate must be equal or superior to 0")
+            if len(exit) > 2 or len(exit) < 2:
+                raise ValueError("exit coordinate must be of format x,y")
+            if exit[0] > self.width or exit[1] > self.height:
+                raise ValueError("Exit point must be in the maze")
+            self.exit = exit
+        except ValueError as e:
+            print(f"Error creating maze class: {e}")
         self.maze = {(x, y): Cell(x, y, width)
                      for y in range(height)
                      for x in range(width)}
@@ -88,21 +132,36 @@ class Maze:
 
         random.seed(2)
         random.shuffle(walls_list)
+        if self.width > 7 and self.height > 6:
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                if cell_a.identity != cell_b.identity and (cell_a.x, cell_a.y) not in self.res_xy and (cell_b.x, cell_b.y) not in self.res_xy:
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
 
-        for (x_a, y_a), (x_b, y_b), direction in walls_list:
-            cell_a = self.maze[(x_a, y_a)]
-            cell_b = self.maze[(x_b, y_b)]
-            if cell_a.identity != cell_b.identity:
-                cell_a.open_wall(direction)
-                second_wall = (direction + 2) % 4
-                cell_b.open_wall(second_wall)
-                old_identity = cell_b.identity
-                new_identity = cell_a.identity
-                for cell in self.maze.values():
-                    if cell.identity == old_identity:
-                        cell.identity = new_identity
+        else:
+            print("Error: maze must be of 8x7 size to be able to print the 42")
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                if cell_a.identity != cell_b.identity:
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
 
-    def create_imperfect_maze(self, entry: tuple, exit: tuple) -> None:
+    def create_imperfect_maze(self) -> None:
         """
         Create an imperfect maze with the same logic as the perfect.
         Here we open walls until the identity of entry and exit are the same,
@@ -127,37 +186,64 @@ class Maze:
 
         random.seed(2)
         random.shuffle(walls_list)
-        entry_cell = self.maze[entry]
-        exit_cell = self.maze[exit]
+        entry_cell = self.maze[self.entry]
+        exit_cell = self.maze[self.exit]
 
-        for (x_a, y_a), (x_b, y_b), direction in walls_list:
-            if entry_cell.identity != exit_cell.identity:
+        if self.width > 7 and self.height > 6:
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                if entry_cell.identity != exit_cell.identity:
+                    cell_a = self.maze[(x_a, y_a)]
+                    cell_b = self.maze[(x_b, y_b)]
+                    if (cell_a.x, cell_a.y) not in self.res_xy and (cell_b.x, cell_b.y) not in self.res_xy:
+                        cell_a.open_wall(direction)
+                        second_wall = (direction + 2) % 4
+                        cell_b.open_wall(second_wall)
+                        old_identity = cell_b.identity
+                        new_identity = cell_a.identity
+                        for cell in self.maze.values():
+                            if cell.identity == old_identity:
+                                cell.identity = new_identity
+
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
                 cell_a = self.maze[(x_a, y_a)]
                 cell_b = self.maze[(x_b, y_b)]
-                cell_a.open_wall(direction)
-                second_wall = (direction + 2) % 4
-                cell_b.open_wall(second_wall)
-                old_identity = cell_b.identity
-                new_identity = cell_a.identity
-                for cell in self.maze.values():
-                    if cell.identity == old_identity:
-                        cell.identity = new_identity
-            else:
-                pass
-        
-        for (x_a, y_a), (x_b, y_b), direction in walls_list:
-            cell_a = self.maze[(x_a, y_a)]
-            cell_b = self.maze[(x_b, y_b)]
-            if cell_a.identity != cell_b.identity:
-                cell_a.open_wall(direction)
-                second_wall = (direction + 2) % 4
-                cell_b.open_wall(second_wall)
-                old_identity = cell_b.identity
-                new_identity = cell_a.identity
-                for cell in self.maze.values():
-                    if cell.identity == old_identity:
-                        cell.identity = new_identity
-                
+                if cell_a.identity != cell_b.identity and (cell_a.x, cell_a.y) not in self.res_xy and (cell_b.x, cell_b.y) not in self.res_xy:
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
+
+        else:
+            print("Error: maze must be of 8x7 size to be able to print the 42")
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                if entry_cell.identity != exit_cell.identity:
+                    cell_a = self.maze[(x_a, y_a)]
+                    cell_b = self.maze[(x_b, y_b)]
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
+
+            for (x_a, y_a), (x_b, y_b), direction in walls_list:
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                if cell_a.identity != cell_b.identity:
+                    cell_a.open_wall(direction)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
+                    old_identity = cell_b.identity
+                    new_identity = cell_a.identity
+                    for cell in self.maze.values():
+                        if cell.identity == old_identity:
+                            cell.identity = new_identity
 
 
 

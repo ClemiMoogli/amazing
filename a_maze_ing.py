@@ -14,7 +14,7 @@ def is_valid_config(config: Dict) -> bool:
     return True
 
 
-def main(config_file:str="config.txt"):
+def main(config_file: str = "config.txt"):
     config = read_config_file(config_file)
     if not is_valid_config(config):
         print("Invalid configuration, please check")
@@ -23,12 +23,16 @@ def main(config_file:str="config.txt"):
         print("Configuration is missing! update the config.txt file.")
         return
     print(config)
-    maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')))
     perfect = config.get('PERFECT')
     entry_loc = config.get('ENTRY')
     entry_loc = tuple(map(int, entry_loc.split(',')))
     exit_loc = config.get('EXIT')
     exit_loc = tuple(map(int, exit_loc.split(',')))
+<<<<<<< HEAD
+=======
+    maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')),
+                entry_loc, exit_loc)
+>>>>>>> main
 
     print("entry: ", entry_loc)
     print("exit: ", exit_loc)
