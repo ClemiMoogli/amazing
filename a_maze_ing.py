@@ -1,7 +1,7 @@
 from parser.config_parser import read_config_file
 from maze.maze import Maze
 from render.render import print_maze
-from solver.bfs import bfs_solver
+from solver.bfs import bfs_solver, convert_path_to_NSWE
 from typing import Dict
 
 
@@ -38,10 +38,11 @@ def main(config_file: str = "config.txt"):
     else:
         print("imperfect")
         maze.create_imperfect_maze(entry_loc, exit_loc)
-    maze.print_maze()
+    #maze.print_maze()
     maze.generate_maze_output()
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
     print_maze("output_maze.txt", entry_loc, exit_loc, True, shortest_path)
-    print(shortest_path)
+    print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
+    #print(shortest_path)
 
 main()

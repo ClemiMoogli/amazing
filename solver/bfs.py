@@ -25,7 +25,7 @@ def find_path(parent:dict, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) ->
     path.reverse()
     return path
 
-def bfs_solver(maze:Maze, entry_loc:tuple(int,int), exit_loc:tuple(int,int)):
+def bfs_solver(maze:Maze, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) -> list[tuple(int,int)]:
     queue = [entry_loc]
     visited = {entry_loc}
     parent = {}
@@ -41,3 +41,17 @@ def bfs_solver(maze:Maze, entry_loc:tuple(int,int), exit_loc:tuple(int,int)):
                 parent[cell] = current_loc
     way = find_path(parent, entry_loc, exit_loc)
     return way
+
+def convert_path_to_NSWE(shortest_path:list[tuple(int,int)]) -> str:
+    path = ""
+    for i in range(0, len(shortest_path) - 1):
+        curr_x, curr_y = shortest_path[i]
+        if (curr_x + 1, curr_y) == shortest_path[i+1]:
+            path += "E"
+        if (curr_x - 1, curr_y) == shortest_path[i+1]:
+            path += "W"
+        if (curr_x, curr_y + 1) == shortest_path[i+1]:
+            path  += "S"
+        if (curr_x, curr_y - 1) == shortest_path[i+1]:
+            path += "N"
+    return path
