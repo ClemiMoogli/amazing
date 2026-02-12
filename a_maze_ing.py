@@ -3,6 +3,7 @@ from maze.maze import Maze
 from render.render import print_maze
 from solver.bfs import bfs_solver, convert_path_to_NSWE
 from typing import Dict
+from simple_term_menu import TerminalMenu
 
 
 def is_valid_config(config: Dict) -> bool:
@@ -15,6 +16,10 @@ def is_valid_config(config: Dict) -> bool:
 
 
 def main(config_file: str = "config.txt"):
+    options = ["Regenerate maze",
+               "Show quickest valid path",
+               "Change wall color to blue"]
+    terminal_menu = TerminalMenu(options)
     config = read_config_file(config_file)
     if not is_valid_config(config):
         print("Invalid configuration, please check")
@@ -41,9 +46,24 @@ def main(config_file: str = "config.txt"):
     #maze.print_maze()
     maze.generate_maze_output()
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
-    print_maze("output_maze.txt", entry_loc, exit_loc, True, shortest_path)
-    print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path")
+    print_maze("output_maze.txt", entry_loc, exit_loc, False, shortest_path)
+    print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit")
     print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
+    while 1:
+        menu_entry_index = terminal_menu.show()
+        if options[menu_entry_index] == "Regenerate maze":
+            maze.generate_maze_output()
+            shortest_path = bfs_solver(maze, entry_loc, exit_loc)
+            print_maze("output_maze.txt", entry_loc, exit_loc, False, shortest_path)
+            print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit")
+            print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
+        if options[menu_entry_index] == "Show quickest valid path":
+            print_maze("output_maze.txt", entry_loc, exit_loc, True, shortest_path)
+            print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path")
+            print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
+        if options[menu_entry_index] == "Change wall color to blue":
+            print("Not done yet")
+
     #print(shortest_path)
 
 main()
