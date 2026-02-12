@@ -179,7 +179,8 @@ class Maze:
                     print(cell.show_cell_hexa(), end="")
             print()
 
-    def generate_maze_output(self, output_file="output_maze.txt") -> None:
+    def generate_maze_output(self, output_file:str , entry_loc: tuple[int,int],
+                             exit_loc: tuple[int,int], shortest_path: list[tuple[int,int]]) -> None:
         """Generate the Hex format of the maze and save it in the
         output file."""
         with open(output_file, "w") as f:
@@ -187,9 +188,12 @@ class Maze:
                 for x in range(self.width):
                     cell = self.maze.get((x, y))
                     if cell:
-
                         f.write(f"{cell.show_cell_hexa()}")
                 f.write("\n")
+            f.write("\n")
+            f.write(f"{entry_loc[0]},{entry_loc[1]}\n")
+            f.write(f"{exit_loc[0]},{exit_loc[1]}\n")
+            f.write(f"{shortest_path}\n")
 
     def create_perfect_maze(self) -> None:
         """

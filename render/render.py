@@ -11,7 +11,7 @@ def load_hex_grid(path: str) -> list[list[int]]:
     with open(path, "r") as f:
         for raw in f:
             line = raw.strip()
-            if not line:
+            if not line or line == "\n":
                 break
             grid.append([int(ch, 16) for ch in line])
     return grid
