@@ -37,7 +37,7 @@ def main(config_file: str = "config.txt"):
         maze.create_perfect_maze()
     else:
         print("imperfect")
-        maze.create_imperfect_maze(entry_loc, exit_loc)
+        maze.create_imperfect_maze()
     #maze.print_maze()
     maze.generate_maze_output()
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
