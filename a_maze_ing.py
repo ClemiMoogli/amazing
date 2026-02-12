@@ -42,6 +42,7 @@ def main(config_file: str = "config.txt"):
     maze.generate_maze_output()
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
     print_maze("output_maze.txt", entry_loc, exit_loc, True, shortest_path)
+    print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path")
     print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
     #print(shortest_path)
 

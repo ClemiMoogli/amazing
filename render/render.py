@@ -42,9 +42,9 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
             cell = grid[y][x]
             mid.append("|" if (cell & WEST) else " ")
             if (x, y) == entry_loc:
-                mid.append(" # ")
+                mid.append(" \033[91m#\033[0m ")
             elif (x, y) == exit_loc:
-                mid.append(" # ")
+                mid.append(" \033[32m#\033[0m ")
             elif (x, y) in shortest_path and show_path is True:
                 mid.append(" @ ")
             else:
