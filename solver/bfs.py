@@ -1,6 +1,7 @@
 from maze.maze import Maze
 
-def find_neighbors(maze:Maze, loc:tuple(int,int)) -> list:
+
+def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
     neighbors = []
     x, y = loc
     grid = maze.maze
@@ -15,7 +16,9 @@ def find_neighbors(maze:Maze, loc:tuple(int,int)) -> list:
         neighbors.append((x - 1, y))
     return neighbors
 
-def find_path(parent:dict, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) -> tuple:
+
+def find_path(parent: dict, entry_loc: tuple[int, int],
+              exit_loc: tuple[int, int]) -> tuple:
     path = []
     current_loc = exit_loc
     while current_loc != entry_loc:
@@ -25,7 +28,9 @@ def find_path(parent:dict, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) ->
     path.reverse()
     return path
 
-def bfs_solver(maze:Maze, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) -> list[tuple(int,int)]:
+
+def bfs_solver(maze: Maze, entry_loc: tuple[int, int], exit_loc:
+               tuple[int, int]) -> list[tuple[int, int]]:
     queue = [entry_loc]
     visited = {entry_loc}
     parent = {}
@@ -42,7 +47,8 @@ def bfs_solver(maze:Maze, entry_loc:tuple(int,int), exit_loc:tuple(int,int)) -> 
     way = find_path(parent, entry_loc, exit_loc)
     return way
 
-def convert_path_to_NSWE(shortest_path:list[tuple(int,int)]) -> str:
+
+def convert_path_to_NSWE(shortest_path: list[tuple[int, int]]) -> str:
     path = ""
     for i in range(0, len(shortest_path) - 1):
         curr_x, curr_y = shortest_path[i]
@@ -51,7 +57,7 @@ def convert_path_to_NSWE(shortest_path:list[tuple(int,int)]) -> str:
         if (curr_x - 1, curr_y) == shortest_path[i+1]:
             path += "W"
         if (curr_x, curr_y + 1) == shortest_path[i+1]:
-            path  += "S"
+            path += "S"
         if (curr_x, curr_y - 1) == shortest_path[i+1]:
             path += "N"
     return path

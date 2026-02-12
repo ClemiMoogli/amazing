@@ -16,8 +16,10 @@ def load_hex_grid(path: str) -> list[list[int]]:
             grid.append([int(ch, 16) for ch in line])
     return grid
 
-def print_maze_ascii(grid: list[list[int]], entry_loc:tuple(int,int), exit_loc:tuple(int,int),
-                     show_path:bool, shortest_path: list[tuple(int,int)]) -> None:
+
+def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
+                     exit_loc: tuple[int, int], show_path: bool,
+                     shortest_path: list[tuple[int, int]]) -> None:
     """Using a grid of int to print a maze in the terminal
     using ASCII character"""
     h = len(grid)
@@ -43,7 +45,7 @@ def print_maze_ascii(grid: list[list[int]], entry_loc:tuple(int,int), exit_loc:t
                 mid.append(" # ")
             elif (x, y) == exit_loc:
                 mid.append(" # ")
-            elif (x, y) in shortest_path and show_path == True:
+            elif (x, y) in shortest_path and show_path is True:
                 mid.append(" @ ")
             else:
                 mid.append("   ")
@@ -60,8 +62,9 @@ def print_maze_ascii(grid: list[list[int]], entry_loc:tuple(int,int), exit_loc:t
         print("".join(bot))
 
 
-def print_maze(output_file: str, entry_loc:tuple(int,int), exit_loc:tuple(int,int),
-               show_path:bool, shortest_path:list[tuple(int,int)] ) -> None:
+def print_maze(output_file: str, entry_loc: tuple[int, int],
+               exit_loc: tuple[int, int], show_path: bool,
+               shortest_path: list[tuple[int, int]]) -> None:
     """The full function that take an hex matrix and print
     the maze in the stdout."""
     grid = load_hex_grid(output_file)
