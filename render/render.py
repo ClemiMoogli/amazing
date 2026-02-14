@@ -1,3 +1,6 @@
+from .color import choose_colors
+
+
 NORTH = 1  # bit 0
 EAST = 2  # bit 1
 SOUTH = 4  # bit 2
@@ -19,7 +22,7 @@ def load_hex_grid(path: str) -> list[list[int]]:
 
 def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
                      exit_loc: tuple[int, int], show_path: bool,
-                     shortest_path: list[tuple[int, int]]) -> None:
+                     shortest_path: list[tuple[int, int]], color: str) -> None:
     """Using a grid of int to print a maze in the terminal
     using ASCII character"""
     h = len(grid)
@@ -31,41 +34,42 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
     top = []
     for x in range(w):
         cell = grid[0][x]
-        top.append("+")
-        top.append("---" if (cell & NORTH) else "   ")
-    top.append("+")
+        top.append(f"{color}+{choose_colors.END}")
+        top.append(f"{color}---{choose_colors.END}" if (cell & NORTH) else "   ")
+    top.append(f"{color}+{choose_colors.END}")
     print("".join(top))
 
     for y in range(h):
         mid = []
         for x in range(w):
             cell = grid[y][x]
-            mid.append("|" if (cell & WEST) else " ")
+            mid.append(f"{color}|{choose_colors.END}" if (cell & WEST) else " ")
             if (x, y) == entry_loc:
                 mid.append(" \033[91m#\033[0m ")
             elif (x, y) == exit_loc:
                 mid.append(" \033[32m#\033[0m ")
             elif (x, y) in shortest_path and show_path is True:
-                mid.append(" @ ")
+                mid.append(f" {choose_colors.WHITE}@{choose_colors.END} ")
             else:
                 mid.append("   ")
         last = grid[y][w - 1]
-        mid.append("|" if (last & EAST) else " ")
+        mid.append(f"{color}|{choose_colors.END}" if (last & EAST) else " ")
         print("".join(mid))
 
         bot = []
         for x in range(w):
             cell = grid[y][x]
-            bot.append("+")
-            bot.append("---" if (cell & SOUTH) else "   ")
-        bot.append("+")
+            bot.append(f"{color}+{choose_colors.END}")
+            bot.append(f"{color}---{choose_colors.END}" if (cell & SOUTH) else "   ")
+        bot.append(f"{color}+{choose_colors.END}")
         print("".join(bot))
 
 
 def print_maze(output_file: str, entry_loc: tuple[int, int],
                exit_loc: tuple[int, int], show_path: bool,
-               shortest_path: list[tuple[int, int]]) -> None:
+               shortest_path: list[tuple[int, int]],
+               color: str) -> None:
     """The full function that take an hex matrix and print
     the maze in the stdout."""
     grid = load_hex_grid(output_file)
-    print_maze_ascii(grid, entry_loc, exit_loc, show_path, shortest_path)
+    print_maze_ascii(grid, entry_loc, exit_loc, show_path, shortest_path, color)
