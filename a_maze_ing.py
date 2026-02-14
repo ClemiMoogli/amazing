@@ -33,6 +33,7 @@ def main(config_file: str = "config.txt"):
     entry_loc = tuple(map(int, entry_loc.split(',')))
     exit_loc = config.get('EXIT')
     exit_loc = tuple(map(int, exit_loc.split(',')))
+    output_file = config.get('OUTPUT_FILE')
     maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')),
                 entry_loc, exit_loc)
     print("entry: ", entry_loc)
@@ -46,19 +47,19 @@ def main(config_file: str = "config.txt"):
     #maze.print_maze()
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
     shortest_path_NSWE = convert_path_to_NSWE(shortest_path)
-    maze.generate_maze_output("output_maze.txt", entry_loc, exit_loc, shortest_path_NSWE)
-    print_maze("output_maze.txt", entry_loc, exit_loc, False, shortest_path)
+    maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
+    print_maze(output_file, entry_loc, exit_loc, False, shortest_path)
     print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit")
     while 1:
         menu_entry_index = terminal_menu.show()
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output()
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
-            print_maze("output_maze.txt", entry_loc, exit_loc, False, shortest_path)
+            print_maze(output_file, entry_loc, exit_loc, False, shortest_path)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit")
             print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
         if options[menu_entry_index] == "Show quickest valid path":
-            print_maze("output_maze.txt", entry_loc, exit_loc, True, shortest_path)
+            print_maze(output_file, entry_loc, exit_loc, True, shortest_path)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path")
             print(f"Output path: {convert_path_to_NSWE(shortest_path)}")
         if options[menu_entry_index] == "Change wall color to blue":
