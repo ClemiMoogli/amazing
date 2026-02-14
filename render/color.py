@@ -11,6 +11,7 @@ class Color(Enum):
 
 
 def check_return_color(color_str:str) -> str:
+    """Check if the input color is in the Enum Color, else return a KeyError"""
     try:
         match color_str.upper():
             case "WHITE":
@@ -29,5 +30,4 @@ def check_return_color(color_str:str) -> str:
                 return Color.RESET.value
     except KeyError:
         "Invalid color"
-
 
