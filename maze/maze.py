@@ -28,140 +28,111 @@ class Maze:
         (cell number), used
         for the algo, and the hexa value of the walls.
         """
-        try:
-            self.show_42 = True
-            if width <= 0:
-                raise ValueError("width must be > 0")
-            self.width = width
-            if height <= 0:
-                raise ValueError("height must be > 0")
-            self.height = height
-            if self.width > 7 and self.height > 6:
-                self.ft_x = floor((self.width - 6) / 2)
-                self.ft_y = floor((self.height - 5) / 2)
-                self.res_xy = [(self.ft_x, self.ft_y),
-                               (self.ft_x + 4, self.ft_y),
-                               (self.ft_x + 5, self.ft_y),
-                               (self.ft_x, self.ft_y + 1),
-                               (self.ft_x + 5, self.ft_y + 1),
-                               (self.ft_x, self.ft_y + 2),
-                               (self.ft_x + 1, self.ft_y + 2),
-                               (self.ft_x + 2, self.ft_y + 2),
-                               (self.ft_x + 4, self.ft_y + 2),
-                               (self.ft_x + 5, self.ft_y + 2),
-                               (self.ft_x, self.ft_y),
-                               (self.ft_x + 2, self.ft_y + 3),
-                               (self.ft_x + 4, self.ft_y + 3),
-                               (self.ft_x + 2, self.ft_y + 4),
-                               (self.ft_x + 4, self.ft_y + 4),
-                               (self.ft_x + 5, self.ft_y + 4)]
-                if entry in self.res_xy or exit in self.res_xy:
-                    self.ft_x = 0
-                    self.fr_y = 0
-                    self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                   (self.ft_x + 4, self.ft_y - 2),
-                                   (self.ft_x + 5, self.ft_y - 2),
-                                   (self.ft_x, self.ft_y - 1),
-                                   (self.ft_x + 5, self.ft_y - 1),
-                                   (self.ft_x, self.ft_y),
-                                   (self.ft_x + 1, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y),
-                                   (self.ft_x + 4, self.ft_y),
-                                   (self.ft_x + 5, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y + 1),
-                                   (self.ft_x + 4, self.ft_y + 1),
-                                   (self.ft_x + 2, self.ft_y + 2),
-                                   (self.ft_x + 4, self.ft_y + 2),
-                                   (self.ft_x + 5, self.ft_y + 2)]
-                if entry in self.res_xy or exit in self.res_xy:
-                    self.ft_x = width - 7
-                    self.ft_y = height - 3
-                    self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                   (self.ft_x + 4, self.ft_y - 2),
-                                   (self.ft_x + 5, self.ft_y - 2),
-                                   (self.ft_x, self.ft_y - 1),
-                                   (self.ft_x + 5, self.ft_y - 1),
-                                   (self.ft_x, self.ft_y),
-                                   (self.ft_x + 1, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y),
-                                   (self.ft_x + 4, self.ft_y),
-                                   (self.ft_x + 5, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y + 1),
-                                   (self.ft_x + 4, self.ft_y + 1),
-                                   (self.ft_x + 2, self.ft_y + 2),
-                                   (self.ft_x + 4, self.ft_y + 2),
-                                   (self.ft_x + 5, self.ft_y + 2)]
-                if entry in self.res_xy or exit in self.res_xy:
-                    self.ft_x = width - 4
-                    self.ft_y = height + 2
-                    self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                   (self.ft_x + 4, self.ft_y - 2),
-                                   (self.ft_x + 5, self.ft_y - 2),
-                                   (self.ft_x, self.ft_y - 1),
-                                   (self.ft_x + 5, self.ft_y - 1),
-                                   (self.ft_x, self.ft_y),
-                                   (self.ft_x + 1, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y),
-                                   (self.ft_x + 4, self.ft_y),
-                                   (self.ft_x + 5, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y + 1),
-                                   (self.ft_x + 4, self.ft_y + 1),
-                                   (self.ft_x + 2, self.ft_y + 2),
-                                   (self.ft_x + 4, self.ft_y + 2),
-                                   (self.ft_x + 5, self.ft_y + 2)]
-                if entry in self.res_xy or exit in self.res_xy:
-                    self.ft_x = width - 1
-                    self.ft_y = height + 2
-                    self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                   (self.ft_x + 4, self.ft_y - 2),
-                                   (self.ft_x + 5, self.ft_y - 2),
-                                   (self.ft_x, self.ft_y - 1),
-                                   (self.ft_x + 5, self.ft_y - 1),
-                                   (self.ft_x, self.ft_y),
-                                   (self.ft_x + 1, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y),
-                                   (self.ft_x + 4, self.ft_y),
-                                   (self.ft_x + 5, self.ft_y),
-                                   (self.ft_x + 2, self.ft_y + 1),
-                                   (self.ft_x + 4, self.ft_y + 1),
-                                   (self.ft_x + 2, self.ft_y + 2),
-                                   (self.ft_x + 4, self.ft_y + 2),
-                                   (self.ft_x + 5, self.ft_y + 2)]
-                if entry in self.res_xy or exit in self.res_xy:
-                    self.show_42 = False
-                    print("Error: cannot print 42 with the current"
-                          "entry and exit point")
-            else:
+        self.show_42 = True
+        self.width = width
+        self.height = height
+        if self.width > 7 and self.height > 6:
+            self.ft_x = floor((self.width - 6) / 2)
+            self.ft_y = floor((self.height - 5) / 2)
+            self.res_xy = [(self.ft_x, self.ft_y),
+                            (self.ft_x + 4, self.ft_y),
+                            (self.ft_x + 5, self.ft_y),
+                            (self.ft_x, self.ft_y + 1),
+                            (self.ft_x + 5, self.ft_y + 1),
+                            (self.ft_x, self.ft_y + 2),
+                            (self.ft_x + 1, self.ft_y + 2),
+                            (self.ft_x + 2, self.ft_y + 2),
+                            (self.ft_x + 4, self.ft_y + 2),
+                            (self.ft_x + 5, self.ft_y + 2),
+                            (self.ft_x, self.ft_y),
+                            (self.ft_x + 2, self.ft_y + 3),
+                            (self.ft_x + 4, self.ft_y + 3),
+                            (self.ft_x + 2, self.ft_y + 4),
+                            (self.ft_x + 4, self.ft_y + 4),
+                            (self.ft_x + 5, self.ft_y + 4)]
+            if entry in self.res_xy or exit in self.res_xy:
+                self.ft_x = 0
+                self.fr_y = 0
+                self.res_xy = [(self.ft_x, self.ft_y - 2),
+                                (self.ft_x + 4, self.ft_y - 2),
+                                (self.ft_x + 5, self.ft_y - 2),
+                                (self.ft_x, self.ft_y - 1),
+                                (self.ft_x + 5, self.ft_y - 1),
+                                (self.ft_x, self.ft_y),
+                                (self.ft_x + 1, self.ft_y),
+                                (self.ft_x + 2, self.ft_y),
+                                (self.ft_x + 4, self.ft_y),
+                                (self.ft_x + 5, self.ft_y),
+                                (self.ft_x + 2, self.ft_y + 1),
+                                (self.ft_x + 4, self.ft_y + 1),
+                                (self.ft_x + 2, self.ft_y + 2),
+                                (self.ft_x + 4, self.ft_y + 2),
+                                (self.ft_x + 5, self.ft_y + 2)]
+            if entry in self.res_xy or exit in self.res_xy:
+                self.ft_x = width - 7
+                self.ft_y = height - 3
+                self.res_xy = [(self.ft_x, self.ft_y - 2),
+                                (self.ft_x + 4, self.ft_y - 2),
+                                (self.ft_x + 5, self.ft_y - 2),
+                                (self.ft_x, self.ft_y - 1),
+                                (self.ft_x + 5, self.ft_y - 1),
+                                (self.ft_x, self.ft_y),
+                                (self.ft_x + 1, self.ft_y),
+                                (self.ft_x + 2, self.ft_y),
+                                (self.ft_x + 4, self.ft_y),
+                                (self.ft_x + 5, self.ft_y),
+                                (self.ft_x + 2, self.ft_y + 1),
+                                (self.ft_x + 4, self.ft_y + 1),
+                                (self.ft_x + 2, self.ft_y + 2),
+                                (self.ft_x + 4, self.ft_y + 2),
+                                (self.ft_x + 5, self.ft_y + 2)]
+            if entry in self.res_xy or exit in self.res_xy:
+                self.ft_x = width - 4
+                self.ft_y = height + 2
+                self.res_xy = [(self.ft_x, self.ft_y - 2),
+                                (self.ft_x + 4, self.ft_y - 2),
+                                (self.ft_x + 5, self.ft_y - 2),
+                                (self.ft_x, self.ft_y - 1),
+                                (self.ft_x + 5, self.ft_y - 1),
+                                (self.ft_x, self.ft_y),
+                                (self.ft_x + 1, self.ft_y),
+                                (self.ft_x + 2, self.ft_y),
+                                (self.ft_x + 4, self.ft_y),
+                                (self.ft_x + 5, self.ft_y),
+                                (self.ft_x + 2, self.ft_y + 1),
+                                (self.ft_x + 4, self.ft_y + 1),
+                                (self.ft_x + 2, self.ft_y + 2),
+                                (self.ft_x + 4, self.ft_y + 2),
+                                (self.ft_x + 5, self.ft_y + 2)]
+            if entry in self.res_xy or exit in self.res_xy:
+                self.ft_x = width - 1
+                self.ft_y = height + 2
+                self.res_xy = [(self.ft_x, self.ft_y - 2),
+                                (self.ft_x + 4, self.ft_y - 2),
+                                (self.ft_x + 5, self.ft_y - 2),
+                                (self.ft_x, self.ft_y - 1),
+                                (self.ft_x + 5, self.ft_y - 1),
+                                (self.ft_x, self.ft_y),
+                                (self.ft_x + 1, self.ft_y),
+                                (self.ft_x + 2, self.ft_y),
+                                (self.ft_x + 4, self.ft_y),
+                                (self.ft_x + 5, self.ft_y),
+                                (self.ft_x + 2, self.ft_y + 1),
+                                (self.ft_x + 4, self.ft_y + 1),
+                                (self.ft_x + 2, self.ft_y + 2),
+                                (self.ft_x + 4, self.ft_y + 2),
+                                (self.ft_x + 5, self.ft_y + 2)]
+            if entry in self.res_xy or exit in self.res_xy:
                 self.show_42 = False
-            if entry == exit:
-                raise ValueError("entry and exit must be different")
-            for nb in entry:
-                if isinstance(nb, int) is False:
-                    raise ValueError("entry coordinate must be numbers")
-                if nb < 0:
-                    raise ValueError("entry coordinate must be equal or"
-                                     " superior to 0")
-            if len(entry) > 2 or len(entry) < 2:
-                raise ValueError("entry coordinate must be of format x,y")
-            if entry[0] > self.width or entry[1] > self.height:
-                raise ValueError("Entry point must be in the maze")
-            self.entry = entry
-            for nb in exit:
-                if isinstance(nb, int) is False:
-                    raise ValueError("exit coordinate must be numbers")
-                if nb < 0:
-                    raise ValueError("exit coordinate must be equal"
-                                     "or superior to 0")
-            if len(exit) > 2 or len(exit) < 2:
-                raise ValueError("exit coordinate must be of format x,y")
-            if exit[0] > self.width or exit[1] > self.height:
-                raise ValueError("Exit point must be in the maze")
-            self.exit = exit
-        except ValueError as e:
-            print(f"Error creating maze class: {e}")
+                print("Error: cannot print 42 with the current"
+                        "entry and exit point")
+        else:
+            self.show_42 = False
+        self.entry = entry
+        self.exit = exit
         self.maze = {(x, y): Cell(x, y, width)
-                     for y in range(height)
-                     for x in range(width)}
+                        for y in range(height)
+                        for x in range(width)}
 
     def print_maze(self) -> None:
         """
