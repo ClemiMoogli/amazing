@@ -251,43 +251,38 @@ class Maze:
 
         random.seed()
         random.shuffle(walls_list)
+
         entry_cell = self.maze[self.entry]
         exit_cell = self.maze[self.exit]
-
+        remaining_wall = []
         if self.show_42 is True:
             for (x_a, y_a), (x_b, y_b), direction in walls_list:
                 if entry_cell.identity != exit_cell.identity:
                     cell_a = self.maze[(x_a, y_a)]
                     cell_b = self.maze[(x_b, y_b)]
-                    if (
-                        (cell_a.x, cell_a.y) not in self.res_xy
-                        and (cell_b.x, cell_b.y) not in self.res_xy
-                       ):
-                        cell_a.open_wall(direction)
-                        second_wall = (direction + 2) % 4
-                        cell_b.open_wall(second_wall)
-                        old_identity = cell_b.identity
-                        new_identity = cell_a.identity
-                        for cell in self.maze.values():
-                            if cell.identity == old_identity:
-                                cell.identity = new_identity
 
-            for (x_a, y_a), (x_b, y_b), direction in walls_list:
-                cell_a = self.maze[(x_a, y_a)]
-                cell_b = self.maze[(x_b, y_b)]
-                if (
-                    cell_a.identity != cell_b.identity
-                    and (cell_a.x, cell_a.y) not in self.res_xy
-                    and (cell_b.x, cell_b.y) not in self.res_xy
-                   ):
+                if ((cell_a.x, cell_a.y) in self.res_xy
+                    or (cell_b.x, cell_b.y) in self.res_xy):
+                    continue
+
+                if cell_a.identity != cell_b.identity:
                     cell_a.open_wall(direction)
-                    second_wall = (direction + 2) % 4
-                    cell_b.open_wall(second_wall)
+                    cell_b.open_wall((direction + 2) % 4)
                     old_identity = cell_b.identity
                     new_identity = cell_a.identity
                     for cell in self.maze.values():
                         if cell.identity == old_identity:
                             cell.identity = new_identity
+                
+                else:
+                    remaining_wall.append(((x_a, y_a), (x_b, y_b), direction))
+            
+            nb_to_open = len(remaining_wall) // 10
+
+            for i in range(nb_to_open):
+                (x_a, y_a), (x_b, y_b), direction = remaining_wall[i]
+                self.maze[(x_a, y_a)].open_wall(direction)
+                self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
         else:
             print("Error: maze must be of 8x7 size to be able to print the 42")
@@ -295,27 +290,25 @@ class Maze:
                 if entry_cell.identity != exit_cell.identity:
                     cell_a = self.maze[(x_a, y_a)]
                     cell_b = self.maze[(x_b, y_b)]
+
+                if cell_a.identity != cell_b.identity:
                     cell_a.open_wall(direction)
-                    second_wall = (direction + 2) % 4
-                    cell_b.open_wall(second_wall)
+                    cell_b.open_wall((direction + 2) % 4)
                     old_identity = cell_b.identity
                     new_identity = cell_a.identity
                     for cell in self.maze.values():
                         if cell.identity == old_identity:
                             cell.identity = new_identity
 
-            for (x_a, y_a), (x_b, y_b), direction in walls_list:
-                cell_a = self.maze[(x_a, y_a)]
-                cell_b = self.maze[(x_b, y_b)]
-                if cell_a.identity != cell_b.identity:
-                    cell_a.open_wall(direction)
-                    second_wall = (direction + 2) % 4
-                    cell_b.open_wall(second_wall)
-                    old_identity = cell_b.identity
-                    new_identity = cell_a.identity
-                    for cell in self.maze.values():
-                        if cell.identity == old_identity:
-                            cell.identity = new_identity
+                else:
+                    remaining_wall.append(((x_a, y_a), (x_b, y_b), direction))
+
+            nb_to_open = len(remaining_wall) // 10
+
+            for i in range(nb_to_open):
+                (x_a, y_a), (x_b, y_b), direction = remaining_wall[i]
+                self.maze[(x_a, y_a)].open_wall(direction)
+                self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
 
 # def main():

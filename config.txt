@@ -3,7 +3,7 @@ HEIGHT=10
 ENTRY=3,4
 EXIT=8,5
 OUTPUT_FILE=output_maze.txt
-PERFECT=True
+PERFECT=False
 
 # Maze width (number of cells)
 # HEIGHT Maze height
