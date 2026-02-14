@@ -1,4 +1,4 @@
-from .color import Color, check_return_color
+from .color import Color
 
 NORTH = 1  # bit 0
 EAST = 2  # bit 1
@@ -25,8 +25,6 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
     """Using a grid of int to print a maze in the terminal
     using ASCII character"""
 
-    color = check_return_color(color)
-
     h = len(grid)
     w = len(grid[0]) if h else 0
     if h == 0 or w == 0:
@@ -39,7 +37,7 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
         top.append("+")
         top.append("---" if (cell & NORTH) else "   ")
     top.append("+")
-    print(color + "".join(top) + Color.RESET.value)
+    print(color + "".join(top) + Color.RESET)
 
     for y in range(h):
         mid = []
@@ -56,7 +54,7 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
                 mid.append("   ")
         last = grid[y][w - 1]
         mid.append("|" if (last & EAST) else " ")
-        print(color + "".join(mid) + Color.RESET.value)
+        print(color + "".join(mid) + Color.RESET)
 
         bot = []
         for x in range(w):
@@ -64,7 +62,7 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
             bot.append("+")
             bot.append("---" if (cell & SOUTH) else "   ")
         bot.append("+")
-        print(color + "".join(bot) + Color.RESET.value)
+        print(color + "".join(bot) + Color.RESET)
 
 
 def print_maze(output_file: str, entry_loc: tuple[int, int],
