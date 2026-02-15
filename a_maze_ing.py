@@ -33,7 +33,7 @@ def is_valid_config(config: Dict) -> bool:
 
 def main(config_file: str = "config.txt"):
     options = ["Regenerate maze",
-               "Show quickest valid path",
+               "Show/hide quickest valid path",
                "Change wall color",
                "Quit"]
     terminal_menu = TerminalMenu(options)
@@ -66,6 +66,7 @@ def main(config_file: str = "config.txt"):
     maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
     print_maze(output_file, entry_loc, exit_loc, False, shortest_path, color)
     print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n")
+    show_path = False
     while 1:
         menu_entry_index = terminal_menu.show()
         if options[menu_entry_index] == "Regenerate maze":
@@ -73,8 +74,9 @@ def main(config_file: str = "config.txt"):
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
             print_maze(output_file, entry_loc, exit_loc, False, shortest_path, color)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n")
-        if options[menu_entry_index] == "Show quickest valid path":
-            print_maze(output_file, entry_loc, exit_loc, True, shortest_path, color)
+        if options[menu_entry_index] == "Show/hide quickest valid path":
+            show_path = False if show_path == True else True
+            print_maze(output_file, entry_loc, exit_loc, show_path, shortest_path, color)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path\n")
         if options[menu_entry_index] == "Change wall color":
             color_entry = options_menu.show()
