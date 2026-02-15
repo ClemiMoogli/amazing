@@ -1,11 +1,11 @@
 class Cell:
-    def __init__(self, x: int, y: int, width: int):
+    def __init__(self, x: int, y: int, width: int) -> None:
         """The Cell class represente one cell in the maze.
 
         Keywords arguments:
         -x -- The x position
         -y -- The y position
-        -identity --
+        -identity -- The cell identity
         -wall -- The wall Open/Close
         """
         self.x = x
@@ -16,8 +16,12 @@ class Cell:
     def is_wall_open(self, wall_nb: int) -> bool:
         """check if the given wall number is already opened, if open
         return True
-        1 = Close
-        0 = Open
+        
+        Keywords arguments:
+        -wall_nb -- : the wall position (0=N, 1=E, 2=S, 3=W)
+
+        return value:
+        True if the selected wall is open.
         """
         if self.wall[wall_nb] == 1:
             return False

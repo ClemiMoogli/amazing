@@ -3,6 +3,9 @@ def read_config_file(file_path: str = "config.txt") -> dict:
 
     Keywords arguments:
     file_path -- the file path of the file to read (default "config.txt")
+
+    return value:
+    A dictionary containing all the config arguments.
     """
     dict_config = {}
     with open(file_path) as f:

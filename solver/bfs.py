@@ -2,6 +2,16 @@ from maze.maze import Maze
 
 
 def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
+    """
+    A function to find the opened cells next to a current cell.
+
+    keyword arguments:
+    - maze -- the maze instance
+    - loc -- the current cell
+
+    return value:
+    a list of opened cell next to the current cell
+    """
     neighbors = []
     x, y = loc
     grid = maze.maze
@@ -18,7 +28,18 @@ def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
 
 
 def find_path(parent: dict, entry_loc: tuple[int, int],
-              exit_loc: tuple[int, int]) -> tuple:
+              exit_loc: tuple[int, int]) -> list[tuple[int,int]]:
+    """
+    A function to structure the path between entry and exit.
+
+    keyword arguments:
+    - parent -- a dictionary of previous cell: current cell during the solution path.
+    - entry_loc -- the maze entry
+    - exit_loc -- the maze output
+
+    return value:
+    A list of coordinates.
+    """
     path = []
     current_loc = exit_loc
     while current_loc != entry_loc:
@@ -31,6 +52,17 @@ def find_path(parent: dict, entry_loc: tuple[int, int],
 
 def bfs_solver(maze: Maze, entry_loc: tuple[int, int], exit_loc:
                tuple[int, int]) -> list[tuple[int, int]]:
+    """
+    A function using breadth first search algortythm to find the shortest_path between entry and exit.
+
+    keyword arguments:
+    - maze -- the maze instance
+    - entry_loc -- the maze entry
+    - exit_loc -- the maze exit
+
+    return value:
+    A list of coordinates.
+    """
     queue = [entry_loc]
     visited = {entry_loc}
     parent = {}
@@ -49,6 +81,9 @@ def bfs_solver(maze: Maze, entry_loc: tuple[int, int], exit_loc:
 
 
 def convert_path_to_NSWE(shortest_path: list[tuple[int, int]]) -> str:
+    """
+    A function that take a shortest path in coordinates format and convert it to NSWE format.
+    """
     path = ""
     for i in range(0, len(shortest_path) - 1):
         curr_x, curr_y = shortest_path[i]

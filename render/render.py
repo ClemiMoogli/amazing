@@ -7,7 +7,7 @@ WEST = 8  # bit 3
 
 
 def load_hex_grid(path: str) -> list[list[int]]:
-    """Function to take an hex matrix and convert it to an array of array
+    """Function that take an hex matrix and convert it to an array of array
     of int, representing the maze"""
     grid: list[list[int]] = []
     with open(path, "r") as f:
@@ -23,7 +23,16 @@ def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
                      exit_loc: tuple[int, int], show_path: bool,
                      shortest_path: list[tuple[int, int]], color:str) -> None:
     """Using a grid of int to print a maze in the terminal
-    using ASCII character"""
+    using ASCII character
+
+    keyword arguments:
+    - grid -- the maze matrix
+    - entry_loc -- the maze entry
+    - exit_loc -- the maze exit
+    - show_path -- a bool arg to specify if we want to see the shortest path on the maze
+    - shortest_path -- the sortest path list of coordinates
+    - color -- the maze color
+    """
 
     h = len(grid)
     w = len(grid[0]) if h else 0
@@ -69,6 +78,15 @@ def print_maze(output_file: str, entry_loc: tuple[int, int],
                exit_loc: tuple[int, int], show_path: bool,
                shortest_path: list[tuple[int, int]], color:str) -> None:
     """The full function that take an hex matrix and print
-    the maze in the stdout."""
+    the maze in the stdout.
+    
+    keyword arguments:
+    - output_file -- the maze output file
+    - entry_loc -- the maze entry
+    - exit_loc -- the maze exit
+    - show_path -- a bool arg to specify if we want to see the shortest path on the maze
+    - shortest_path -- the sortest path list of coordinates
+    - color -- the maze color
+    """
     grid = load_hex_grid(output_file)
     print_maze_ascii(grid, entry_loc, exit_loc, show_path, shortest_path, color)

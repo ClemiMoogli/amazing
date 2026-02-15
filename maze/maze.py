@@ -273,10 +273,10 @@ class Maze:
                     for cell in self.maze.values():
                         if cell.identity == old_identity:
                             cell.identity = new_identity
-                
+
                 else:
                     remaining_wall.append(((x_a, y_a), (x_b, y_b), direction))
-            
+
             nb_to_open = len(remaining_wall) // 10
 
             for i in range(nb_to_open):
@@ -310,11 +310,3 @@ class Maze:
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
-
-# def main():
-#    maze = Maze(10, 10)
-#    maze.create_perfect_maze()
-#    maze.print_maze()
-#    maze.generate_maze_output()
-#   print(convert_hex_to_binary("1A"))
-# main()
