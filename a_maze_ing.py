@@ -35,11 +35,13 @@ def main(config_file: str = "config.txt"):
     options = ["Regenerate maze",
                "Show/hide quickest valid path",
                "Change wall color",
-               "Play the fabulous maze game!"
+               "Play the fabulous maze game!",
                "Quit"]
     terminal_menu = TerminalMenu(options)
     color_options = ["Red", "Green", "Blue", "Purple", "Yellow", "White"]
     options_menu = TerminalMenu(color_options)
+    options_game = ["Up", "Down", "Left", "Right", "Quit"]
+    game_menu = TerminalMenu(options_game)
     color = Color.WHITE
     print(color)
 
@@ -94,7 +96,20 @@ def main(config_file: str = "config.txt"):
             if color_options[color_entry] == "White":
                 color = Color.WHITE
         if options[menu_entry_index] == "Play the fabulous maze game!":
-            pass
+            game_entry = game_menu.show()
+            game_cell = entry_loc
+            print_maze(output_file, game_cell, exit_loc, show_path, shortest_path, color)
+            if options_game[game_entry] == "Up":
+                pass
+            if options_game[game_entry] == "Down":
+                pass
+            if options_game[game_entry] == "Left":
+                pass
+            if options_game[game_entry] == "Right":
+                pass
+            if options_game[game_entry] == "Quit":
+                sys.exit()
+
         if options[menu_entry_index] == "Quit":
             sys.exit()
 
