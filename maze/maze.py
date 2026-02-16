@@ -44,7 +44,6 @@ class Maze:
                             (self.ft_x + 2, self.ft_y + 2),
                             (self.ft_x + 4, self.ft_y + 2),
                             (self.ft_x + 5, self.ft_y + 2),
-                            (self.ft_x, self.ft_y),
                             (self.ft_x + 2, self.ft_y + 3),
                             (self.ft_x + 4, self.ft_y + 3),
                             (self.ft_x + 2, self.ft_y + 4),
@@ -125,14 +124,14 @@ class Maze:
             if entry in self.res_xy or exit in self.res_xy:
                 self.show_42 = False
                 print("Error: cannot print 42 with the current"
-                        "entry and exit point")
+                      "entry and exit point")
         else:
             self.show_42 = False
         self.entry = entry
         self.exit = exit
         self.maze = {(x, y): Cell(x, y, width)
-                        for y in range(height)
-                        for x in range(width)}
+                     for y in range(height)
+                     for x in range(width)}
 
     def print_maze(self) -> None:
         """
@@ -257,32 +256,35 @@ class Maze:
         remaining_wall = []
         if self.show_42 is True:
             for (x_a, y_a), (x_b, y_b), direction in walls_list:
-                if entry_cell.identity != exit_cell.identity:
-                    cell_a = self.maze[(x_a, y_a)]
-                    cell_b = self.maze[(x_b, y_b)]
-
-                if ((cell_a.x, cell_a.y) in self.res_xy
-                    or (cell_b.x, cell_b.y) in self.res_xy):
-                    continue
-
-                if cell_a.identity != cell_b.identity:
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                if (
+                    cell_a.identity != cell_b.identity
+                   and (cell_a.x, cell_a.y) not in self.res_xy
+                   and (cell_b.x, cell_b.y) not in self.res_xy
+                   ):
                     cell_a.open_wall(direction)
-                    cell_b.open_wall((direction + 2) % 4)
+                    second_wall = (direction + 2) % 4
+                    cell_b.open_wall(second_wall)
                     old_identity = cell_b.identity
                     new_identity = cell_a.identity
                     for cell in self.maze.values():
                         if cell.identity == old_identity:
                             cell.identity = new_identity
 
-                else:
-                    remaining_wall.append(((x_a, y_a), (x_b, y_b), direction))
-
-            nb_to_open = len(remaining_wall) // 10
+            nb_to_open = len(walls_list) // 10
+            random.shuffle(walls_list)
 
             for i in range(nb_to_open):
-                (x_a, y_a), (x_b, y_b), direction = remaining_wall[i]
-                self.maze[(x_a, y_a)].open_wall(direction)
-                self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
+                (x_a, y_a), (x_b, y_b), direction = walls_list[i]
+                cell_a = self.maze[(x_a, y_a)]
+                cell_b = self.maze[(x_b, y_b)]
+                if (
+                    (cell_a.x, cell_a.y) not in self.res_xy
+                    and (cell_b.x, cell_b.y) not in self.res_xy
+                   ):
+                    self.maze[(x_a, y_a)].open_wall(direction)
+                    self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
         else:
             print("Error: maze must be of 8x7 size to be able to print the 42")
@@ -310,3 +312,8 @@ class Maze:
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
+    def get_42_coord(self):
+        return self.res_xy
+
+    def get_is_lab_perf(self):
+        return self.show_42
