@@ -113,7 +113,6 @@ def main(config_file: str = "config.txt"):
                 game_entry = game_menu.show()
                 if options_game[game_entry] == "Up":
                     x,y = game_cell
-                    print(game_cell)
                     new_loc = (x, y - 1)
                     maze.maze.get((x, y))
                     neighbors = find_neighbors(maze, (x, y))
