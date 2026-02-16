@@ -6,6 +6,11 @@ from typing import Dict
 from render.color import Color
 from simple_term_menu import TerminalMenu
 import sys
+import os
+
+
+def clearConsole():
+    os.system('clear')
 
 
 def is_valid_config(config: Dict) -> bool:
@@ -42,7 +47,7 @@ def is_valid_config(config: Dict) -> bool:
 
 
 def main(config_file: str = "config.txt"):
-    game_cell = (8,5)
+    game_cell = "default"
     options = ["Regenerate maze",
                "Show/hide quickest valid path",
                "Change wall color",
@@ -108,7 +113,7 @@ def main(config_file: str = "config.txt"):
                 color = Color.WHITE.value
         if options[menu_entry_index] == "Play the fabulous maze game!":
             game_cell = entry_loc
-            print_maze(maze, show_path, shortest_path, game_cell, color)
+            print_maze(maze, False, shortest_path, game_cell, color)
             while 1:
                 game_entry = game_menu.show()
                 if options_game[game_entry] == "Up":
@@ -117,7 +122,8 @@ def main(config_file: str = "config.txt"):
                     maze.maze.get((x, y))
                     neighbors = find_neighbors(maze, (x, y))
                     if new_loc in neighbors:
-                        print_maze(maze, show_path, shortest_path, new_loc, color)
+                        clearConsole()
+                        print_maze(maze, False, shortest_path, new_loc, color)
                         game_cell = new_loc
                     else:
                         print("Invalid coordinates!")
@@ -127,7 +133,8 @@ def main(config_file: str = "config.txt"):
                     maze.maze.get((x, y))
                     neighbors = find_neighbors(maze, (x, y))
                     if new_loc in neighbors:
-                        print_maze(maze, show_path, shortest_path, new_loc, color)
+                        clearConsole()
+                        print_maze(maze, False, shortest_path, new_loc, color)
                         game_cell = new_loc
                     else:
                         print("Invalid coordinates!")
@@ -137,7 +144,8 @@ def main(config_file: str = "config.txt"):
                     maze.maze.get((x, y))
                     neighbors = find_neighbors(maze, (x, y))
                     if new_loc in neighbors:
-                        print_maze(maze, show_path, shortest_path, new_loc, color)
+                        clearConsole()
+                        print_maze(maze, False, shortest_path, new_loc, color)
                         game_cell = new_loc
                     else:
                         print("Invalid coordinates!")
@@ -147,11 +155,14 @@ def main(config_file: str = "config.txt"):
                     maze.maze.get((x, y))
                     neighbors = find_neighbors(maze, (x, y))
                     if new_loc in neighbors:
-                        print_maze(maze, show_path, shortest_path, new_loc, color)
+                        clearConsole()
+                        print_maze(maze, False, shortest_path, new_loc, color)
                         game_cell = new_loc
                     else:
                         print("Invalid coordinates!")
                 if options_game[game_entry] == "Quit":
+                    game_cell = "default"
+                    print_maze(maze, show_path, shortest_path, game_cell, color)
                     break
 
         if options[menu_entry_index] == "Quit":
