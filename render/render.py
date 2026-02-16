@@ -1,5 +1,6 @@
 from maze.maze import Maze
 from .color import Color
+
 def print_maze(maze: Maze, show_path: bool,
                shortest_path: list[tuple[int, int]], 
                game_cell:tuple[int,int], color:str) -> None:
@@ -13,7 +14,7 @@ def print_maze(maze: Maze, show_path: bool,
     - game_cell -- the coordinates of the player
     - color -- the maze color
     """
-
+    is_visible_42 = maze.show_42
     h = maze.height
     w = maze.width
     grid = maze.maze
@@ -54,6 +55,8 @@ def print_maze(maze: Maze, show_path: bool,
                 mid.append(" \033[0m@ " + color)
             elif is_player:
                 mid.append(" ")
+            elif is_visible_42 and (x, y) in maze.res_xy:
+                mid.append("\033[42;2m   \033[0m" + color)
             else:
                 mid.append("   ")
         last = grid.get((w-1, y))

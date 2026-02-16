@@ -311,8 +311,3 @@ class Maze:
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
-    def get_42_coord(self):
-        return self.res_xy
-
-    def get_is_lab_perf(self):
-        return self.show_42

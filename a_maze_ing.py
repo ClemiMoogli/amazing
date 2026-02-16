@@ -91,10 +91,12 @@ def main(config_file: str = "config.txt"):
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
+            clearConsole()
             print_maze(maze, show_path, shortest_path, game_cell, color)
             print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n")
         if options[menu_entry_index] == "Show/hide quickest valid path":
             show_path = False if show_path == True else True
+            clearConsole()
             print_maze(maze, show_path, shortest_path, game_cell, color)
             print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n@: path\n")
         if options[menu_entry_index] == "Change wall color":
@@ -113,6 +115,7 @@ def main(config_file: str = "config.txt"):
                 color = Color.WHITE.value
         if options[menu_entry_index] == "Play the fabulous maze game!":
             game_cell = entry_loc
+            clearConsole()
             print_maze(maze, False, shortest_path, game_cell, color)
             while 1:
                 game_entry = game_menu.show()
@@ -162,6 +165,7 @@ def main(config_file: str = "config.txt"):
                         print("Invalid coordinates!")
                 if options_game[game_entry] == "Quit":
                     game_cell = (-10, -10)
+                    clearConsole()
                     print_maze(maze, show_path, shortest_path, game_cell, color)
                     break
 
