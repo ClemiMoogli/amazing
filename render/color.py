@@ -1,4 +1,6 @@
-class Color:
+from enum import Enum
+
+class Color(Enum):
     """A color class containing some ANSII color code."""
     WHITE="\033[97m"
     BLUE="\033[34m"

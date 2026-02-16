@@ -45,11 +45,14 @@ def main(config_file: str = "config.txt"):
     options = ["Regenerate maze",
                "Show/hide quickest valid path",
                "Change wall color",
+               "Play the fabulous maze game!",
                "Quit"]
     terminal_menu = TerminalMenu(options)
     color_options = ["Red", "Green", "Blue", "Purple", "Yellow", "White"]
     options_menu = TerminalMenu(color_options)
-    color = Color.WHITE
+    options_game = ["Up", "Down", "Left", "Right", "Quit"]
+    game_menu = TerminalMenu(options_game)
+    color = Color.WHITE.value
     print(color)
 
     config = read_config_file(config_file)
@@ -74,7 +77,7 @@ def main(config_file: str = "config.txt"):
     shortest_path = bfs_solver(maze, entry_loc, exit_loc)
     shortest_path_NSWE = convert_path_to_NSWE(shortest_path)
     maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
-    print_maze(output_file, entry_loc, exit_loc, False, shortest_path, color)
+    print_maze(maze, False, shortest_path, color)
     print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n")
     show_path = False
     while 1:
@@ -82,26 +85,41 @@ def main(config_file: str = "config.txt"):
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
-            print_maze(output_file, entry_loc, exit_loc, False, shortest_path, color)
+            print_maze(maze, False, shortest_path, color)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n")
         if options[menu_entry_index] == "Show/hide quickest valid path":
             show_path = False if show_path == True else True
-            print_maze(output_file, entry_loc, exit_loc, show_path, shortest_path, color)
+            print_maze(maze, show_path, shortest_path, color)
             print("Legend:\n\033[91m#\033[0m: Entry\n\033[32m#\033[0m: Exit\n@: path\n")
         if options[menu_entry_index] == "Change wall color":
             color_entry = options_menu.show()
             if color_options[color_entry] == "Red":
-                color = Color.RED
+                color = Color.RED.value
             if color_options[color_entry] == "Green":
-                color = Color.GREEN
+                color = Color.GREEN.value
             if color_options[color_entry] == "Blue":
-                color = Color.BLUE
+                color = Color.BLUE.value
             if color_options[color_entry] == "Purple":
-                color = Color.PURPLE
+                color = Color.PURPLE.value
             if color_options[color_entry] == "Yellow":
-                color = Color.YELLOW
+                color = Color.YELLOW.value
             if color_options[color_entry] == "White":
-                color = Color.WHITE
+                color = Color.WHITE.value
+        if options[menu_entry_index] == "Play the fabulous maze game!":
+            game_entry = game_menu.show()
+            game_cell = entry_loc
+            print_maze(maze, show_path, shortest_path, color)
+            if options_game[game_entry] == "Up":
+                pass
+            if options_game[game_entry] == "Down":
+                pass
+            if options_game[game_entry] == "Left":
+                pass
+            if options_game[game_entry] == "Right":
+                pass
+            if options_game[game_entry] == "Quit":
+                sys.exit()
+
         if options[menu_entry_index] == "Quit":
             sys.exit()
 
