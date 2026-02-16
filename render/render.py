@@ -47,11 +47,11 @@ def print_maze(maze: Maze, show_path: bool,
             if (x, y) == maze.entry and (player_x, player_y) == maze.entry:
                 mid.append(" $ ")
             elif (x, y) == maze.entry:
-                mid.append(" \033[32m# " + color)
+                mid.append(" \033[93m# " + color)
             elif (x, y) == maze.exit:
-                mid.append(" \033[91m# " + color)
+                mid.append(" \033[95m# " + color)
             elif (x, y) in shortest_path and show_path is True:
-                mid.append(" @ ")
+                mid.append(" \033[0m@ " + color)
             elif is_player:
                 mid.append(" ")
             else:

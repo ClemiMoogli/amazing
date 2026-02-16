@@ -47,7 +47,7 @@ def is_valid_config(config: Dict) -> bool:
 
 
 def main(config_file: str = "config.txt"):
-    game_cell = "default"
+    game_cell = (-10,-10)
     options = ["Regenerate maze",
                "Show/hide quickest valid path",
                "Change wall color",
@@ -84,19 +84,19 @@ def main(config_file: str = "config.txt"):
     shortest_path_NSWE = convert_path_to_NSWE(shortest_path)
     maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
     print_maze(maze, False, shortest_path, game_cell, color)
-    print("Legend:\n\033[32m#\033[0m: Entry\n\033[91m#\033[0m: Exit\n")
+    print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n")
     show_path = False
     while 1:
         menu_entry_index = terminal_menu.show()
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
-            print_maze(maze, False, shortest_path, game_cell, color)
-            print("Legend:\n\033[32m#\033[0m: Entry\n\033[91m#\033[0m: Exit\n")
+            print_maze(maze, show_path, shortest_path, game_cell, color)
+            print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n")
         if options[menu_entry_index] == "Show/hide quickest valid path":
             show_path = False if show_path == True else True
             print_maze(maze, show_path, shortest_path, game_cell, color)
-            print("Legend:\n\033[32m#\033[0m: Entry\n\033[91m#\033[0m: Exit\n@: path\n")
+            print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n@: path\n")
         if options[menu_entry_index] == "Change wall color":
             color_entry = options_menu.show()
             if color_options[color_entry] == "Red":
@@ -161,7 +161,7 @@ def main(config_file: str = "config.txt"):
                     else:
                         print("Invalid coordinates!")
                 if options_game[game_entry] == "Quit":
-                    game_cell = "default"
+                    game_cell = (-10, -10)
                     print_maze(maze, show_path, shortest_path, game_cell, color)
                     break
 
