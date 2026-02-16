@@ -15,7 +15,6 @@ from .cell import Cell
 import random
 from math import floor
 
-
 class Maze:
     """
     The maze class.

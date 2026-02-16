@@ -1,92 +1,63 @@
+from maze.maze import Maze
 from .color import Color
-
-NORTH = 1  # bit 0
-EAST = 2  # bit 1
-SOUTH = 4  # bit 2
-WEST = 8  # bit 3
-
-
-def load_hex_grid(path: str) -> list[list[int]]:
-    """Function that take an hex matrix and convert it to an array of array
-    of int, representing the maze"""
-    grid: list[list[int]] = []
-    with open(path, "r") as f:
-        for raw in f:
-            line = raw.strip()
-            if not line or line == "\n":
-                break
-            grid.append([int(ch, 16) for ch in line])
-    return grid
-
-
-def print_maze_ascii(grid: list[list[int]], entry_loc: tuple[int, int],
-                     exit_loc: tuple[int, int], show_path: bool,
+def print_maze(maze: Maze, show_path: bool,
                      shortest_path: list[tuple[int, int]], color:str) -> None:
     """Using a grid of int to print a maze in the terminal
     using ASCII character
 
     keyword arguments:
-    - grid -- the maze matrix
-    - entry_loc -- the maze entry
-    - exit_loc -- the maze exit
+    - maze -- the maze instance
     - show_path -- a bool arg to specify if we want to see the shortest path on the maze
     - shortest_path -- the sortest path list of coordinates
     - color -- the maze color
     """
 
-    h = len(grid)
-    w = len(grid[0]) if h else 0
-    if h == 0 or w == 0:
-        print("(empty maze)")
-        return
-
-    top = []
+    h = maze.height
+    w = maze.width
+    grid = maze.maze
+    top = [] 
     for x in range(w):
-        cell = grid[0][x]
+        cell = grid.get((x, 0))
         top.append("+")
-        top.append("---" if (cell & NORTH) else "   ")
+        if not cell.is_wall_open(0):
+            top.append("---")
+        else:
+            top.append("   ")
     top.append("+")
-    print(color + "".join(top) + Color.RESET)
+    print(color + "".join(top) + Color.RESET.value)
 
     for y in range(h):
         mid = []
         for x in range(w):
-            cell = grid[y][x]
-            mid.append("|" if (cell & WEST) else " ")
-            if (x, y) == entry_loc:
+            cell = grid.get((x, y))
+            if not cell.is_wall_open(3):
+                mid.append("|")
+            else:
+                mid.append(" ")
+            if (x, y) == maze.entry:
                 mid.append(" \033[91m# " + color)
-            elif (x, y) == exit_loc:
+            elif (x, y) == maze.exit:
                 mid.append(" \033[32m# " + color)
             elif (x, y) in shortest_path and show_path is True:
                 mid.append(" @ ")
             else:
                 mid.append("   ")
-        last = grid[y][w - 1]
-        mid.append("|" if (last & EAST) else " ")
-        print(color + "".join(mid) + Color.RESET)
+        last = grid.get((w-1, y))
+        if not last.is_wall_open(1):
+            mid.append("|")
+        else:
+            mid.append(" ")
+        print(color + "".join(mid) + Color.RESET.value)
 
         bot = []
         for x in range(w):
-            cell = grid[y][x]
+            cell = grid.get((x, y))
             bot.append("+")
-            bot.append("---" if (cell & SOUTH) else "   ")
+            if not cell.is_wall_open(2):
+                bot.append("---")
+            else:
+                bot.append("   ")
         bot.append("+")
-        print(color + "".join(bot) + Color.RESET)
+        print(color + "".join(bot) + Color.RESET.value)
 
 
-def print_maze(output_file: str, entry_loc: tuple[int, int],
-               exit_loc: tuple[int, int], show_path: bool,
-               shortest_path: list[tuple[int, int]], color:str) -> None:
-    """The full function that take an hex matrix and print
-    the maze in the stdout.
-    
-    keyword arguments:
-    - output_file -- the maze output file
-    - entry_loc -- the maze entry
-    - exit_loc -- the maze exit
-    - show_path -- a bool arg to specify if we want to see the shortest path on the maze
-    - shortest_path -- the sortest path list of coordinates
-    - color -- the maze color
-    """
-    grid = load_hex_grid(output_file)
-    print_maze_ascii(grid, entry_loc, exit_loc, show_path, shortest_path, color)
