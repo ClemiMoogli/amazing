@@ -14,6 +14,16 @@ def is_valid_config(config: Dict) -> bool:
     Keywords arguments:
     config -- the maze configuration dictionnary.
     """
+    try:
+        int(config["ENTRY"][0])
+        int(config["ENTRY"][2])
+        int(config["EXIT"][0])
+        int(config["EXIT"][2])
+        int(config["HEIGHT"])
+        int(config["WIDTH"])
+    except Exception:
+        return False
+
     if (config["ENTRY"] == config["EXIT"]
         or len(config["ENTRY"]) != 3
         or len(config["EXIT"]) != 3
