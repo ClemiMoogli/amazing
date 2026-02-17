@@ -1,19 +1,7 @@
-# dictio : {(x, y): {"identity": i, "walls_value": hexa}}
-# calcul des murs: 1 1 1 1 = 15 (si 1 = 2^n ou n position)
-# donc si 1 1 1 1 -> 2^3 + 2^2 + 2^1 + 2^0
-#                -> 8 + 4 + 2 + 1
-# algo de fusion aleatoire des chemins: une valeur est associé a
-# chaque cellule,
-# tout les murs sont fermes de base, ouverture d'un mur aleatoire a
-# chaque fois,
-# les cellules qui se touches prennent la meme identity si pas deja le cas
-# sinon n'ouvre pas, jusqu'a se que toutes les cellules aient toutes la
-# meme identity
-# class cell ? a = 1, b = 1, c = 1, d = 1
-
 from .cell import Cell
 import random
 from math import floor
+
 
 class Maze:
     """
@@ -30,96 +18,102 @@ class Maze:
         self.show_42 = True
         self.width = width
         self.height = height
+
         if self.width > 7 and self.height > 6:
             self.ft_x = floor((self.width - 6) / 2)
             self.ft_y = floor((self.height - 5) / 2)
             self.res_xy = [(self.ft_x, self.ft_y),
-                            (self.ft_x + 4, self.ft_y),
-                            (self.ft_x + 5, self.ft_y),
-                            (self.ft_x, self.ft_y + 1),
-                            (self.ft_x + 5, self.ft_y + 1),
-                            (self.ft_x, self.ft_y + 2),
-                            (self.ft_x + 1, self.ft_y + 2),
-                            (self.ft_x + 2, self.ft_y + 2),
-                            (self.ft_x + 4, self.ft_y + 2),
-                            (self.ft_x + 5, self.ft_y + 2),
-                            (self.ft_x + 2, self.ft_y + 3),
-                            (self.ft_x + 4, self.ft_y + 3),
-                            (self.ft_x + 2, self.ft_y + 4),
-                            (self.ft_x + 4, self.ft_y + 4),
-                            (self.ft_x + 5, self.ft_y + 4)]
+                           (self.ft_x + 4, self.ft_y),
+                           (self.ft_x + 5, self.ft_y),
+                           (self.ft_x, self.ft_y + 1),
+                           (self.ft_x + 5, self.ft_y + 1),
+                           (self.ft_x, self.ft_y + 2),
+                           (self.ft_x + 1, self.ft_y + 2),
+                           (self.ft_x + 2, self.ft_y + 2),
+                           (self.ft_x + 4, self.ft_y + 2),
+                           (self.ft_x + 5, self.ft_y + 2),
+                           (self.ft_x + 2, self.ft_y + 3),
+                           (self.ft_x + 4, self.ft_y + 3),
+                           (self.ft_x + 2, self.ft_y + 4),
+                           (self.ft_x + 4, self.ft_y + 4),
+                           (self.ft_x + 5, self.ft_y + 4)]
+
             if entry in self.res_xy or exit in self.res_xy:
                 self.ft_x = 0
                 self.fr_y = 0
                 self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                (self.ft_x + 4, self.ft_y - 2),
-                                (self.ft_x + 5, self.ft_y - 2),
-                                (self.ft_x, self.ft_y - 1),
-                                (self.ft_x + 5, self.ft_y - 1),
-                                (self.ft_x, self.ft_y),
-                                (self.ft_x + 1, self.ft_y),
-                                (self.ft_x + 2, self.ft_y),
-                                (self.ft_x + 4, self.ft_y),
-                                (self.ft_x + 5, self.ft_y),
-                                (self.ft_x + 2, self.ft_y + 1),
-                                (self.ft_x + 4, self.ft_y + 1),
-                                (self.ft_x + 2, self.ft_y + 2),
-                                (self.ft_x + 4, self.ft_y + 2),
-                                (self.ft_x + 5, self.ft_y + 2)]
+                               (self.ft_x + 4, self.ft_y - 2),
+                               (self.ft_x + 5, self.ft_y - 2),
+                               (self.ft_x, self.ft_y - 1),
+                               (self.ft_x + 5, self.ft_y - 1),
+                               (self.ft_x, self.ft_y),
+                               (self.ft_x + 1, self.ft_y),
+                               (self.ft_x + 2, self.ft_y),
+                               (self.ft_x + 4, self.ft_y),
+                               (self.ft_x + 5, self.ft_y),
+                               (self.ft_x + 2, self.ft_y + 1),
+                               (self.ft_x + 4, self.ft_y + 1),
+                               (self.ft_x + 2, self.ft_y + 2),
+                               (self.ft_x + 4, self.ft_y + 2),
+                               (self.ft_x + 5, self.ft_y + 2)]
+
             if entry in self.res_xy or exit in self.res_xy:
                 self.ft_x = width - 7
                 self.ft_y = height - 3
                 self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                (self.ft_x + 4, self.ft_y - 2),
-                                (self.ft_x + 5, self.ft_y - 2),
-                                (self.ft_x, self.ft_y - 1),
-                                (self.ft_x + 5, self.ft_y - 1),
-                                (self.ft_x, self.ft_y),
-                                (self.ft_x + 1, self.ft_y),
-                                (self.ft_x + 2, self.ft_y),
-                                (self.ft_x + 4, self.ft_y),
-                                (self.ft_x + 5, self.ft_y),
-                                (self.ft_x + 2, self.ft_y + 1),
-                                (self.ft_x + 4, self.ft_y + 1),
-                                (self.ft_x + 2, self.ft_y + 2),
-                                (self.ft_x + 4, self.ft_y + 2),
-                                (self.ft_x + 5, self.ft_y + 2)]
+                               (self.ft_x + 4, self.ft_y - 2),
+                               (self.ft_x + 5, self.ft_y - 2),
+                               (self.ft_x, self.ft_y - 1),
+                               (self.ft_x + 5, self.ft_y - 1),
+                               (self.ft_x, self.ft_y),
+                               (self.ft_x + 1, self.ft_y),
+                               (self.ft_x + 2, self.ft_y),
+                               (self.ft_x + 4, self.ft_y),
+                               (self.ft_x + 5, self.ft_y),
+                               (self.ft_x + 2, self.ft_y + 1),
+                               (self.ft_x + 4, self.ft_y + 1),
+                               (self.ft_x + 2, self.ft_y + 2),
+                               (self.ft_x + 4, self.ft_y + 2),
+                               (self.ft_x + 5, self.ft_y + 2)]
+
             if entry in self.res_xy or exit in self.res_xy:
                 self.ft_x = width - 4
                 self.ft_y = height + 2
                 self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                (self.ft_x + 4, self.ft_y - 2),
-                                (self.ft_x + 5, self.ft_y - 2),
-                                (self.ft_x, self.ft_y - 1),
-                                (self.ft_x + 5, self.ft_y - 1),
-                                (self.ft_x, self.ft_y),
-                                (self.ft_x + 1, self.ft_y),
-                                (self.ft_x + 2, self.ft_y),
-                                (self.ft_x + 4, self.ft_y),
-                                (self.ft_x + 5, self.ft_y),
-                                (self.ft_x + 2, self.ft_y + 1),
-                                (self.ft_x + 4, self.ft_y + 1),
-                                (self.ft_x + 2, self.ft_y + 2),
-                                (self.ft_x + 4, self.ft_y + 2),
-                                (self.ft_x + 5, self.ft_y + 2)]
+                               (self.ft_x + 4, self.ft_y - 2),
+                               (self.ft_x + 5, self.ft_y - 2),
+                               (self.ft_x, self.ft_y - 1),
+                               (self.ft_x + 5, self.ft_y - 1),
+                               (self.ft_x, self.ft_y),
+                               (self.ft_x + 1, self.ft_y),
+                               (self.ft_x + 2, self.ft_y),
+                               (self.ft_x + 4, self.ft_y),
+                               (self.ft_x + 5, self.ft_y),
+                               (self.ft_x + 2, self.ft_y + 1),
+                               (self.ft_x + 4, self.ft_y + 1),
+                               (self.ft_x + 2, self.ft_y + 2),
+                               (self.ft_x + 4, self.ft_y + 2),
+                               (self.ft_x + 5, self.ft_y + 2)]
+
             if entry in self.res_xy or exit in self.res_xy:
                 self.ft_x = width - 1
                 self.ft_y = height + 2
                 self.res_xy = [(self.ft_x, self.ft_y - 2),
-                                (self.ft_x + 4, self.ft_y - 2),
-                                (self.ft_x + 5, self.ft_y - 2),
-                                (self.ft_x, self.ft_y - 1),
-                                (self.ft_x + 5, self.ft_y - 1),
-                                (self.ft_x, self.ft_y),
-                                (self.ft_x + 1, self.ft_y),
-                                (self.ft_x + 2, self.ft_y),
-                                (self.ft_x + 4, self.ft_y),
-                                (self.ft_x + 5, self.ft_y),
-                                (self.ft_x + 2, self.ft_y + 1),
-                                (self.ft_x + 4, self.ft_y + 1),
-                                (self.ft_x + 2, self.ft_y + 2),
-                                (self.ft_x + 4, self.ft_y + 2),
-                                (self.ft_x + 5, self.ft_y + 2)]
+                               (self.ft_x + 4, self.ft_y - 2),
+                               (self.ft_x + 5, self.ft_y - 2),
+                               (self.ft_x, self.ft_y - 1),
+                               (self.ft_x + 5, self.ft_y - 1),
+                               (self.ft_x, self.ft_y),
+                               (self.ft_x + 1, self.ft_y),
+                               (self.ft_x + 2, self.ft_y),
+                               (self.ft_x + 4, self.ft_y),
+                               (self.ft_x + 5, self.ft_y),
+                               (self.ft_x + 2, self.ft_y + 1),
+                               (self.ft_x + 4, self.ft_y + 1),
+                               (self.ft_x + 2, self.ft_y + 2),
+                               (self.ft_x + 4, self.ft_y + 2),
+                               (self.ft_x + 5, self.ft_y + 2)]
+
             if entry in self.res_xy or exit in self.res_xy:
                 self.show_42 = False
                 print("Error: cannot print 42 with the current"
@@ -148,10 +142,24 @@ class Maze:
                     print(cell.show_cell_hexa(), end="")
             print()
 
-    def generate_maze_output(self, output_file:str , entry_loc: tuple[int,int],
-                             exit_loc: tuple[int,int], shortest_path: list[tuple[int,int]]) -> None:
-        """Generate the Hex format of the maze and save it in the
-        output file."""
+    def generate_maze_output(self, output_file: str,
+                             entry_loc: tuple[int, int],
+                             exit_loc: tuple[int, int],
+                             shortest_path: list[tuple[int, int]]) -> None:
+        """
+        Generate the Hex format of the maze and save it in the
+        output file.
+
+        :param self: the maze
+        :param output_file: the file where we print the result
+        :type output_file: str
+        :param entry_loc: entry coordinate (x, y)
+        :type entry_loc: tuple[int, int]
+        :param exit_loc: exit coordinate (x, y)
+        :type exit_loc: tuple[int, int]
+        :param shortest_path: shortest path from entry to exit
+        :type shortest_path: list[tuple[int, int]]
+        """
         with open(output_file, "w") as f:
             for y in range(self.height):
                 for x in range(self.width):
@@ -166,19 +174,14 @@ class Maze:
 
     def create_perfect_maze(self) -> None:
         """
-        First create a list of possible walls. This list is composed of tuple:
-        first a global tuple, in this tuple there is a tuple with x y
-        coordinate for the actual wall, a tuple with east (if x+1) cell coord,
-        or south cell coord (if y+1), then at the end of the tuple is the
-        direction:
-        1 for east, 2 for south.
-        This list of walls is shuffled, then the program check if the actual
-        global tuple is valid (check if the identity of the
-        two cell are the same or not).
-        If the identity are not the same, call open_wall from the Cell
-        class to open the first wall with the corresponding direction,
-        then open the inverse wall of the cell in this direction
-        At the end check all the cells identity to change the value if needed
+        Create a perfect maze using the random cell merging algorithm.
+        First create a list of east and south walls for every cell possible,
+        then shuffle it.
+        Open walls until every cell have the same identity.
+        If the maze width and height allow it, show a 42 composed of
+        closed cells.
+
+        :param self: the maze
         """
         walls_list = []
 
@@ -226,15 +229,11 @@ class Maze:
 
     def create_imperfect_maze(self) -> None:
         """
-        Create an imperfect maze with the same logic as the perfect.
-        Here we open walls until the identity of entry and exit are the same,
-        then we open wall until all the walls have the same identity
+        Create an imperfect maze using the random cell merging algorithm.
+        Once every cell have the same identity, open 10% of the total
+        walls to create an imperfect maze with circles.
 
-        :param self: the maze
-        :param entry: entry point
-        :type entry: tuple
-        :param exit: exit point
-        :type exit: tuple
+        :param self: Description
         """
         # creer la liste des murs, definir entry cell et exit cell
         # faire du open jusqu'a se que identity de open == identity de exit?
@@ -305,9 +304,9 @@ class Maze:
                     remaining_wall.append(((x_a, y_a), (x_b, y_b), direction))
 
             nb_to_open = len(remaining_wall) // 10
+            random.shuffle(walls_list)
 
             for i in range(nb_to_open):
                 (x_a, y_a), (x_b, y_b), direction = remaining_wall[i]
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
-

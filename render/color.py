@@ -1,13 +1,12 @@
 from enum import Enum
 
+
 class Color(Enum):
     """A color class containing some ANSII color code."""
-    WHITE="\033[97m"
-    BLUE="\033[34m"
-    RED="\033[31m"
-    GREEN="\033[32m"
-    YELLOW="\033[33m"
-    PURPLE="\033[35m"
-    RESET="\033[0m"
-
-
+    WHITE = "\033[97m"
+    BLUE = "\033[34m"
+    RED = "\033[31m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    PURPLE = "\033[35m"
+    RESET = "\033[0m"

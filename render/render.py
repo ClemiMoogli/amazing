@@ -1,15 +1,17 @@
 from maze.maze import Maze
 from .color import Color
 
+
 def print_maze(maze: Maze, show_path: bool,
-               shortest_path: list[tuple[int, int]], 
-               game_cell:tuple[int,int], color:str) -> None:
+               shortest_path: list[tuple[int, int]],
+               game_cell: tuple[int, int], color: str) -> None:
     """Using a grid of int to print a maze in the terminal
     using ASCII character
 
     keyword arguments:
     - maze -- the maze instance
-    - show_path -- a bool arg to specify if we want to see the shortest path on the maze
+    - show_path -- a bool arg to specify if we want to see the shortest
+    path on the maze
     - shortest_path -- the sortest path list of coordinates
     - game_cell -- the coordinates of the player
     - color -- the maze color
@@ -34,7 +36,7 @@ def print_maze(maze: Maze, show_path: bool,
     for y in range(h):
         mid = []
         for x in range(w):
-            is_player=False
+            is_player = False
             cell = grid.get((x, y))
             if not cell.is_wall_open(3):
                 mid.append("|")
@@ -42,8 +44,9 @@ def print_maze(maze: Maze, show_path: bool,
                 mid.append(" ")
             if (player_x, player_y) == maze.exit:
                 victory = True
-            elif (player_x, player_y) != maze.entry and (x, y) == (player_x, player_y):
-                is_player=True
+            elif (player_x, player_y) != maze.entry and (x, y) == (player_x,
+                                                                   player_y):
+                is_player = True
                 mid.append(" $")
             if (x, y) == maze.entry and (player_x, player_y) == maze.entry:
                 mid.append(" $ ")
@@ -76,9 +79,7 @@ def print_maze(maze: Maze, show_path: bool,
                 bot.append("   ")
         bot.append("+")
         print(color + "".join(bot) + Color.RESET.value)
-    if victory == True:
+    if victory is True:
         print("\n=========================")
         print("Congratulation, you won!")
         print("=========================")
-
-

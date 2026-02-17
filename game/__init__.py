@@ -1,3 +1,3 @@
 from .game import play_game
 
-all = ["play_game"]
+__all__ = ["play_game"]

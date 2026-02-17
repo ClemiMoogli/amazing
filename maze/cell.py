@@ -16,7 +16,7 @@ class Cell:
     def is_wall_open(self, wall_nb: int) -> bool:
         """check if the given wall number is already opened, if open
         return True
-        
+
         Keywords arguments:
         -wall_nb -- : the wall position (0=N, 1=E, 2=S, 3=W)
 
