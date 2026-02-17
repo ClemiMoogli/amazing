@@ -1,4 +1,4 @@
-from parser.config_parser import read_config_file, is_valid_config
+from parser.config_parser import parse_config
 from maze.maze import Maze
 from render.render import print_maze
 from solver.bfs import bfs_solver, convert_path_to_NSWE
@@ -22,20 +22,17 @@ def main(config_file: str = "config.txt"):
     color = Color.WHITE.value
     print(color)
 
-    config = read_config_file(config_file)
-    if not is_valid_config(config):
-        print("Invalid configuration, please check")
+    try:
+        config = parse_config(config_file)
+    except Exception as e:
+        print(e)
         return
-    if config is None:
-        print("Configuration is missing! update the config.txt file.")
-        return
+
     perfect = config.get('PERFECT')
     entry_loc = config.get('ENTRY')
-    entry_loc = tuple(map(int, entry_loc.split(',')))
     exit_loc = config.get('EXIT')
-    exit_loc = tuple(map(int, exit_loc.split(',')))
     output_file = config.get('OUTPUT_FILE')
-    maze = Maze(int(config.get('WIDTH')), int(config.get('HEIGHT')),
+    maze = Maze(config.get('WIDTH'), config.get('HEIGHT'),
                 entry_loc, exit_loc)
     if perfect == 'True':
         maze.create_perfect_maze()
