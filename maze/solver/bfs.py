@@ -1,7 +1,11 @@
-from maze.maze import Maze
+from typing import TypeAlias, TYPE_CHECKING
+if TYPE_CHECKING:
+    from maze.cell import Cell
+
+Loc: TypeAlias = tuple[int, int]
 
 
-def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
+def find_neighbors(maze: dict[Loc, Cell], loc: Loc) -> list[Loc]:
     """
     A function to find the opened cells next to a current cell.
 
@@ -14,8 +18,7 @@ def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
     """
     neighbors = []
     x, y = loc
-    grid = maze
-    current_cell = grid.get(loc)
+    current_cell = maze[loc]
     if current_cell.is_wall_open(0):
         neighbors.append((x, y - 1))
     if current_cell.is_wall_open(1):
@@ -27,8 +30,8 @@ def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
     return neighbors
 
 
-def find_path(parent: dict, entry_loc: tuple[int, int],
-              exit_loc: tuple[int, int]) -> list[tuple[int, int]]:
+def find_path(parent: dict[Loc, Loc], entry_loc: Loc,
+              exit_loc: Loc) -> list[Loc]:
     """
     A function to structure the path between entry and exit.
 
@@ -51,8 +54,8 @@ def find_path(parent: dict, entry_loc: tuple[int, int],
     return path
 
 
-def bfs_solver(maze: Maze, entry_loc: tuple[int, int], exit_loc:
-               tuple[int, int]) -> list[tuple[int, int]]:
+def bfs_solver(maze: dict[Loc, Cell], entry_loc: Loc,
+               exit_loc: Loc) -> list[Loc]:
     """
     A function using breadth first search algortythm to find the shortest_path
     between entry and exit.
@@ -67,7 +70,7 @@ def bfs_solver(maze: Maze, entry_loc: tuple[int, int], exit_loc:
     """
     queue = [entry_loc]
     visited = {entry_loc}
-    parent = {}
+    parent: dict[Loc, Loc] = {}
     while queue:
         current_loc = queue.pop(0)
         if current_loc == exit_loc:

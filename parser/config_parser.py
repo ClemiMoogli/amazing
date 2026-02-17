@@ -1,4 +1,13 @@
-from typing import Any
+from typing import TypedDict
+
+
+class Config(TypedDict):
+    WIDTH: int
+    HEIGHT: int
+    ENTRY: tuple[int, int]
+    EXIT: tuple[int, int]
+    OUTPUT_FILE: str
+    PERFECT: bool
 
 
 def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
@@ -10,7 +19,7 @@ def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
     return value:
     A dictionary containing all the config arguments.
     """
-    dict_config = {}
+    dict_config: dict[str, str] = {}
     with open(file_path) as f:
         for line in f:
             line = line.strip()
@@ -28,11 +37,17 @@ def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
     return dict_config
 
 
-def parsing_conversion(dict_config: dict[str, str]) -> dict[str, int | str |
-                                                            tuple[int, int]]:
+def parsing_conversion(dict_config: dict[str, str]) -> Config:
     """A function to cast every config arguments in the
     configuration dictionary."""
-    casted_dict: dict[str, int | tuple[int, int] | str] = {}
+    casted_dict: Config = {
+        "WIDTH": 0,
+        "HEIGHT": 0,
+        "ENTRY": (0, 0),
+        "EXIT": (0, 0),
+        "OUTPUT_FILE": "",
+        "PERFECT": False,
+    }
     for key, value in dict_config.items():
         match key:
             case "WIDTH" | "HEIGHT":
@@ -58,8 +73,7 @@ def parsing_conversion(dict_config: dict[str, str]) -> dict[str, int | str |
     return casted_dict
 
 
-def parsing_verification(casted_dict: dict[str, int | str | tuple[int, int]]
-                         ) -> dict[str, int | str | tuple[int, int]]:
+def parsing_verification(casted_dict: Config) -> Config:
     """A function to check if every config arguments is valid."""
     required = {"WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT"}
     missing = required - casted_dict.keys()
@@ -69,7 +83,7 @@ def parsing_verification(casted_dict: dict[str, int | str | tuple[int, int]]
 
     # check width and height
     w, h = casted_dict["WIDTH"], casted_dict["HEIGHT"]
-    if w < 0 or h < 0:
+    if w <= 0 or h <= 0:
         raise ValueError("WIDTH and HEIGHT must be > 0")
 
     # check entry and exit
@@ -88,8 +102,8 @@ def parsing_verification(casted_dict: dict[str, int | str | tuple[int, int]]
     return casted_dict
 
 
-def parse_config(file_path: str) -> Any:
-    dict = read_config_file(file_path)
-    dict = parsing_conversion(dict)
+def parse_config(file_path: str) -> Config:
+    str_dict = read_config_file(file_path)
+    dict = parsing_conversion(str_dict)
     dict = parsing_verification(dict)
     return dict
