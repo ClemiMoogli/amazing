@@ -5,7 +5,7 @@ from render.render import print_maze
 from solver.bfs import find_neighbors
 from utils.utils import clear_console
 
-def play_game(maze:Maze, shortest_path:list[tuple[int,int]], game_cell: tuple[int,int],color:struct) -> None:
+def play_game(maze:Maze, show_path:bool, shortest_path:list[tuple[int,int]], game_cell: tuple[int,int],color:struct) -> None:
     """Function to play the maze game."""
     clear_console()
     print_maze(maze, False, shortest_path, game_cell, color)

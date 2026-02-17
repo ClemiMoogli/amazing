@@ -77,7 +77,7 @@ def main(config_file: str = "config.txt"):
                 color = Color.WHITE.value
         if options[menu_entry_index] == "Play the fabulous maze game!":
             game_cell = entry_loc
-            play_game(maze, shortest_path, game_cell, color)
+            play_game(maze, show_path, shortest_path, game_cell, color)
 
         if options[menu_entry_index] == "Quit":
             sys.exit()
