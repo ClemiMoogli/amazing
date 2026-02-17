@@ -109,3 +109,25 @@ We could have adjusted the size of the 42 to match the size of the maze so that 
 ## Have we use specific tools ? which one ?
 
 We used simple_term_menu to display a menu for selecting options for the maze.
+
+
+# Mazegen module documentation:
+
+To install the mazegen module:
+
+pip install build
+python3 -m build => to build the package
+
+pip install dist/mazegen*.whl => to install the wheel
+
+# How the Mazegen package work ?
+
+from mazegen.maze import Maze
+ 
+          (WIDTH, HEIGHT, ENTRY,  EXIT)
+maze = Maze(10,    10,    (3,3), (5,5))
+
+maze.create_perfect_maze()
+maze.create_imperfect_maze()
+
+path = maze.find_shortest_path()
