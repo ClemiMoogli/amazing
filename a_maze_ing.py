@@ -1,49 +1,13 @@
-from parser.config_parser import read_config_file
+from parser.config_parser import read_config_file, is_valid_config
 from maze.maze import Maze
 from render.render import print_maze
 from solver.bfs import bfs_solver, convert_path_to_NSWE, find_neighbors
 from typing import Dict
 from render.color import Color
 from simple_term_menu import TerminalMenu
+from utils.utils import clear_console
+from game.game import play_game
 import sys
-import os
-
-
-def clearConsole():
-    os.system('clear')
-
-
-def is_valid_config(config: Dict) -> bool:
-    """Function to check if the configuration file is in a valid format.
-
-    Keywords arguments:
-    config -- the maze configuration dictionnary.
-    """
-    try:
-        int(config["ENTRY"][0])
-        int(config["ENTRY"][2])
-        int(config["EXIT"][0])
-        int(config["EXIT"][2])
-        int(config["HEIGHT"])
-        int(config["WIDTH"])
-    except Exception:
-        return False
-
-    if (config["ENTRY"] == config["EXIT"]
-        or len(config["ENTRY"]) != 3
-        or len(config["EXIT"]) != 3
-        or config["EXIT"][1] != ","
-        or config["ENTRY"][1] != ","
-        or int(config["ENTRY"][0]) < 0 or int(config["ENTRY"][2]) < 0
-        or int(config["EXIT"][0]) < 0 or int(config["EXIT"][2]) < 0
-        or int(config["HEIGHT"]) < 0 or int(config["WIDTH"]) < 0
-        or int(config["ENTRY"][0]) > int(config["WIDTH"]) 
-        or int(config["ENTRY"][2]) > int(config["HEIGHT"])
-        or int(config["EXIT"][0]) > int(config["WIDTH"]) 
-        or int(config["EXIT"][2]) > int(config["HEIGHT"])
-        or (config["PERFECT"] != "True" and config["PERFECT"] != "False")):
-        return False
-    return True
 
 
 def main(config_file: str = "config.txt"):
@@ -56,8 +20,6 @@ def main(config_file: str = "config.txt"):
     terminal_menu = TerminalMenu(options)
     color_options = ["Red", "Green", "Blue", "Purple", "Yellow", "White"]
     options_menu = TerminalMenu(color_options)
-    options_game = ["Up", "Down", "Left", "Right", "Quit"]
-    game_menu = TerminalMenu(options_game)
     color = Color.WHITE.value
     print(color)
 
@@ -91,12 +53,12 @@ def main(config_file: str = "config.txt"):
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output(output_file, entry_loc, exit_loc, shortest_path_NSWE)
             shortest_path = bfs_solver(maze, entry_loc, exit_loc)
-            clearConsole()
+            clear_console()
             print_maze(maze, show_path, shortest_path, game_cell, color)
             print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n")
         if options[menu_entry_index] == "Show/hide quickest valid path":
             show_path = False if show_path == True else True
-            clearConsole()
+            clear_console()
             print_maze(maze, show_path, shortest_path, game_cell, color)
             print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n@: path\n")
         if options[menu_entry_index] == "Change wall color":
@@ -115,59 +77,7 @@ def main(config_file: str = "config.txt"):
                 color = Color.WHITE.value
         if options[menu_entry_index] == "Play the fabulous maze game!":
             game_cell = entry_loc
-            clearConsole()
-            print_maze(maze, False, shortest_path, game_cell, color)
-            while 1:
-                game_entry = game_menu.show()
-                if options_game[game_entry] == "Up":
-                    x,y = game_cell
-                    new_loc = (x, y - 1)
-                    maze.maze.get((x, y))
-                    neighbors = find_neighbors(maze, (x, y))
-                    if new_loc in neighbors:
-                        clearConsole()
-                        print_maze(maze, False, shortest_path, new_loc, color)
-                        game_cell = new_loc
-                    else:
-                        print("Invalid coordinates!")
-                if options_game[game_entry] == "Down":
-                    x,y = game_cell
-                    new_loc = (x, y + 1)
-                    maze.maze.get((x, y))
-                    neighbors = find_neighbors(maze, (x, y))
-                    if new_loc in neighbors:
-                        clearConsole()
-                        print_maze(maze, False, shortest_path, new_loc, color)
-                        game_cell = new_loc
-                    else:
-                        print("Invalid coordinates!")
-                if options_game[game_entry] == "Left":
-                    x,y = game_cell
-                    new_loc = (x - 1, y)
-                    maze.maze.get((x, y))
-                    neighbors = find_neighbors(maze, (x, y))
-                    if new_loc in neighbors:
-                        clearConsole()
-                        print_maze(maze, False, shortest_path, new_loc, color)
-                        game_cell = new_loc
-                    else:
-                        print("Invalid coordinates!")
-                if options_game[game_entry] == "Right":
-                    x,y = game_cell
-                    new_loc = (x + 1, y)
-                    maze.maze.get((x, y))
-                    neighbors = find_neighbors(maze, (x, y))
-                    if new_loc in neighbors:
-                        clearConsole()
-                        print_maze(maze, False, shortest_path, new_loc, color)
-                        game_cell = new_loc
-                    else:
-                        print("Invalid coordinates!")
-                if options_game[game_entry] == "Quit":
-                    game_cell = (-10, -10)
-                    clearConsole()
-                    print_maze(maze, show_path, shortest_path, game_cell, color)
-                    break
+            play_game(maze, shortest_path, game_cell, color)
 
         if options[menu_entry_index] == "Quit":
             sys.exit()

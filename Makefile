@@ -21,6 +21,7 @@ debug: venv install
 clean:
 	@find . -type d -name "__pycache__" -prune -exec rm -rf {} +
 	@rm -rf .mypy_cache
+	@rm -rf .DS_Store
 	@rm -rf "$(VENV)"
 
 lint: install
