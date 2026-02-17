@@ -2,6 +2,7 @@ from .cell import Cell
 
 import random
 from math import floor
+from typing import Optional
 
 
 class Maze:
@@ -9,7 +10,8 @@ class Maze:
     The maze class.
     """
     def __init__(self, width: int, height: int,
-                 entry: tuple[int, int], exit: tuple[int, int]):
+                 entry: tuple[int, int], exit: tuple[int, int],
+                 seed: Optional[int] = None):
         """
         Initialize the maze as a dictionnary. The key is tuple (x, y) with x
         as the width
@@ -20,6 +22,7 @@ class Maze:
         self.show_42 = True
         self.width = width
         self.height = height
+        self.seed = seed
 
         if self.width > 7 and self.height > 6:
             self.ft_x = floor((self.width - 6) / 2)
@@ -193,8 +196,10 @@ class Maze:
                     walls_list.append(((x, y), (x + 1, y), 1))
                 if y + 1 < self.height:
                     walls_list.append(((x, y), (x, y + 1), 2))
-
-        random.seed()
+        if self.seed is None:
+            random.seed()
+        else:
+            random.seed(self.seed)
         random.shuffle(walls_list)
         if self.show_42 is True:
             for (x_a, y_a), (x_b, y_b), direction in walls_list:
@@ -248,7 +253,10 @@ class Maze:
                 if y + 1 < self.height:
                     walls_list.append(((x, y), (x, y + 1), 2))
 
-        random.seed()
+        if self.seed is None:
+            random.seed()
+        else:
+            random.seed(self.seed)
         random.shuffle(walls_list)
 
         entry_cell = self.maze[self.entry]
