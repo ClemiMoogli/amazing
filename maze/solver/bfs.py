@@ -1,3 +1,5 @@
+from maze.maze import Maze
+
 
 def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
     """

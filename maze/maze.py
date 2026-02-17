@@ -1,5 +1,5 @@
 from .cell import Cell
-from .solver.bfs import bfs_solver
+
 import random
 from math import floor
 
@@ -313,6 +313,7 @@ class Maze:
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
 
-    def find_shortest_path(self) -> list[tuple[int,int]]:
+    def find_shortest_path(self) -> list[tuple[int, int]]:
+        """A method to find the shortest_path of a maze structure."""
+        from .solver.bfs import bfs_solver
         return bfs_solver(self.maze, self.entry, self.exit)
-
