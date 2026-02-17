@@ -1,7 +1,7 @@
-from maze.maze import Maze
+from mazegen.maze import Maze
 from simple_term_menu import TerminalMenu  # type: ignore
 from render.render import print_maze
-from maze.solver.bfs import find_neighbors
+from mazegen.solver.bfs import find_neighbors
 from utils.utils import clear_console
 
 

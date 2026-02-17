@@ -1,4 +1,4 @@
-from maze.maze import Maze
+from mazegen.maze import Maze
 from .color import Color
 
 

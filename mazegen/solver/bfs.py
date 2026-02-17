@@ -1,6 +1,6 @@
 from typing import TypeAlias, TYPE_CHECKING
 if TYPE_CHECKING:
-    from maze.cell import Cell
+    from mazegen.cell import Cell
 
 Loc: TypeAlias = tuple[int, int]
 
