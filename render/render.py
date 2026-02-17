@@ -26,7 +26,7 @@ def print_maze(maze: Maze, show_path: bool,
     for x in range(w):
         cell = grid.get((x, 0))
         top.append("+")
-        if not cell.is_wall_open(0):
+        if cell and not cell.is_wall_open(0):
             top.append("---")
         else:
             top.append("   ")
@@ -38,7 +38,7 @@ def print_maze(maze: Maze, show_path: bool,
         for x in range(w):
             is_player = False
             cell = grid.get((x, y))
-            if not cell.is_wall_open(3):
+            if cell and not cell.is_wall_open(3):
                 mid.append("|")
             else:
                 mid.append(" ")
@@ -63,7 +63,7 @@ def print_maze(maze: Maze, show_path: bool,
             else:
                 mid.append("   ")
         last = grid.get((w-1, y))
-        if not last.is_wall_open(1):
+        if last and not last.is_wall_open(1):
             mid.append("|")
         else:
             mid.append(" ")
@@ -73,7 +73,7 @@ def print_maze(maze: Maze, show_path: bool,
         for x in range(w):
             cell = grid.get((x, y))
             bot.append("+")
-            if not cell.is_wall_open(2):
+            if cell and not cell.is_wall_open(2):
                 bot.append("---")
             else:
                 bot.append("   ")

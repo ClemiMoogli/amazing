@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
     """Function to read the configuration file.
 
@@ -14,7 +17,8 @@ def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
             if not line or line.startswith("#"):
                 continue
             if "=" not in line:
-                raise ValueError("Invalid config, uncommented line without '='")
+                raise ValueError("Invalid config, uncommented "
+                                 "line without '='")
             key, value = line.split("=", 1)
             key = key.strip()
             value = value.strip()
@@ -24,9 +28,11 @@ def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
     return dict_config
 
 
-def parsing_conversion(dict_config:dict[str, str]) -> dict:
-    """A function to cast every config arguments in the configuration dictionary."""
-    casted_dict = {}
+def parsing_conversion(dict_config: dict[str, str]) -> dict[str, int | str |
+                                                            tuple[int, int]]:
+    """A function to cast every config arguments in the
+    configuration dictionary."""
+    casted_dict: dict[str, int | tuple[int, int] | str] = {}
     for key, value in dict_config.items():
         match key:
             case "WIDTH" | "HEIGHT":
@@ -34,8 +40,9 @@ def parsing_conversion(dict_config:dict[str, str]) -> dict:
             case "ENTRY" | "EXIT":
                 args = [arg.strip() for arg in value.split(",")]
                 if len(args) != 2:
-                    raise ValueError(f"Invalid configuration: {key} must be in format x,y")
-                casted_dict[key] = (int(args[0]),int(args[1]))
+                    raise ValueError(f"Invalid configuration: {key} must be "
+                                     "in format x,y")
+                casted_dict[key] = (int(args[0]), int(args[1]))
             case "OUTPUT_FILE":
                 casted_dict[key] = value
             case "PERFECT":
@@ -44,25 +51,28 @@ def parsing_conversion(dict_config:dict[str, str]) -> dict:
                 elif value.lower() == "false":
                     casted_dict[key] = False
                 else:
-                    raise ValueError("Invalid PERFECT configuration (must be True or False).")
+                    raise ValueError("Invalid PERFECT configuration "
+                                     "(must be True or False).")
             case _:
                 pass
     return casted_dict
 
 
-def parsing_verification(casted_dict:dict):
+def parsing_verification(casted_dict: dict[str, int | str | tuple[int, int]]
+                         ) -> dict[str, int | str | tuple[int, int]]:
     """A function to check if every config arguments is valid."""
     required = {"WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT"}
     missing = required - casted_dict.keys()
     if missing:
-        raise ValueError(f"Invalid configuration: missing {missing} configuration.")
-    
+        raise ValueError(f"Invalid configuration: missing {missing} "
+                         "configuration.")
+
     # check width and height
     w, h = casted_dict["WIDTH"], casted_dict["HEIGHT"]
     if w < 0 or h < 0:
         raise ValueError("WIDTH and HEIGHT must be > 0")
 
-    #check entry and exit
+    # check entry and exit
     en_x, en_y = casted_dict["ENTRY"]
     ex_x, ex_y = casted_dict["EXIT"]
     if (en_x, en_y) == (ex_x, ex_y):
@@ -71,13 +81,14 @@ def parsing_verification(casted_dict:dict):
         raise ValueError("ENTRY coordinates is invalid")
     if not (0 <= ex_x < w and 0 <= ex_y < h):
         raise ValueError("EXIT coordinates is invalid")
-    
-    #check OUTPUT_FILE
+
+    # check OUTPUT_FILE
     if not casted_dict["OUTPUT_FILE"].endswith(".txt"):
         raise ValueError("OUTPUT_FILE must end with .txt")
     return casted_dict
 
-def parse_config(file_path:str) -> dict:
+
+def parse_config(file_path: str) -> Any:
     dict = read_config_file(file_path)
     dict = parsing_conversion(dict)
     dict = parsing_verification(dict)

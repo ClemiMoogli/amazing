@@ -7,7 +7,8 @@ class Maze:
     """
     The maze class.
     """
-    def __init__(self, width: int, height: int, entry: tuple, exit: tuple):
+    def __init__(self, width: int, height: int,
+                 entry: tuple[int, int], exit: tuple[int, int]):
         """
         Initialize the maze as a dictionnary. The key is tuple (x, y) with x
         as the width
@@ -145,7 +146,7 @@ class Maze:
     def generate_maze_output(self, output_file: str,
                              entry_loc: tuple[int, int],
                              exit_loc: tuple[int, int],
-                             shortest_path: list[tuple[int, int]]) -> None:
+                             shortest_path: str) -> None:
         """
         Generate the Hex format of the maze and save it in the
         output file.

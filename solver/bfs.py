@@ -1,7 +1,7 @@
 from maze.maze import Maze
 
 
-def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
+def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list[tuple[int, int]]:
     """
     A function to find the opened cells next to a current cell.
 
@@ -16,13 +16,13 @@ def find_neighbors(maze: Maze, loc: tuple[int, int]) -> list:
     x, y = loc
     grid = maze.maze
     current_cell = grid.get(loc)
-    if current_cell.is_wall_open(0):
+    if current_cell is not None and current_cell.is_wall_open(0):
         neighbors.append((x, y - 1))
-    if current_cell.is_wall_open(1):
+    if current_cell is not None and current_cell.is_wall_open(1):
         neighbors.append((x + 1, y))
-    if current_cell.is_wall_open(2):
+    if current_cell is not None and current_cell.is_wall_open(2):
         neighbors.append((x, y + 1))
-    if current_cell.is_wall_open(3):
+    if current_cell is not None and current_cell.is_wall_open(3):
         neighbors.append((x - 1, y))
     return neighbors
 

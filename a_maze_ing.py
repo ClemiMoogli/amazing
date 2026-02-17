@@ -9,7 +9,7 @@ from game.game import play_game
 import sys
 
 
-def main(config_file: str = "config.txt"):
+def main(config_file: str = "config.txt") -> None:
     game_cell = (-10, -10)
     options = ["Regenerate maze",
                "Show/hide quickest valid path",
