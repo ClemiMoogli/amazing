@@ -2,7 +2,7 @@ from parser.config_parser import parse_config
 from maze.maze import Maze
 from render.render import print_maze
 from render.color import Color
-from simple_term_menu import TerminalMenu
+from simple_term_menu import TerminalMenu  # type: ignore
 from utils.utils import clear_console
 from game.game import play_game
 from maze.solver.bfs import convert_path_to_NSWE
@@ -28,7 +28,7 @@ def main(config_file: str = "config.txt") -> None:
         print(e)
         return
 
-    perfect = config.get('PERFECT')
+    perfect = str(config.get('PERFECT'))
     entry_loc = config.get('ENTRY')
     exit_loc = config.get('EXIT')
     output_file = config.get('OUTPUT_FILE')
