@@ -1,4 +1,5 @@
 from .cell import Cell
+from .solver.bfs import bfs_solver
 import random
 from math import floor
 
@@ -311,3 +312,7 @@ class Maze:
                 (x_a, y_a), (x_b, y_b), direction = remaining_wall[i]
                 self.maze[(x_a, y_a)].open_wall(direction)
                 self.maze[(x_b, y_b)].open_wall((direction + 2) % 4)
+
+    def find_shortest_path(self) -> list[tuple[int,int]]:
+        return bfs_solver(self.maze, self.entry, self.exit)
+

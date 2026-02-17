@@ -1,11 +1,11 @@
 from parser.config_parser import parse_config
 from maze.maze import Maze
 from render.render import print_maze
-from solver.bfs import bfs_solver, convert_path_to_NSWE
 from render.color import Color
 from simple_term_menu import TerminalMenu
 from utils.utils import clear_console
 from game.game import play_game
+from maze.solver.bfs import convert_path_to_NSWE
 import sys
 
 
@@ -38,7 +38,7 @@ def main(config_file: str = "config.txt") -> None:
         maze.create_perfect_maze()
     else:
         maze.create_imperfect_maze()
-    shortest_path = bfs_solver(maze, entry_loc, exit_loc)
+    shortest_path = maze.find_shortest_path()
     shortest_path_NSWE = convert_path_to_NSWE(shortest_path)
     maze.generate_maze_output(output_file, entry_loc, exit_loc,
                               shortest_path_NSWE)
@@ -50,7 +50,7 @@ def main(config_file: str = "config.txt") -> None:
         if options[menu_entry_index] == "Regenerate maze":
             maze.generate_maze_output(output_file, entry_loc, exit_loc,
                                       shortest_path_NSWE)
-            shortest_path = bfs_solver(maze, entry_loc, exit_loc)
+            shortest_path = maze.find_shortest_path()
             clear_console()
             print_maze(maze, show_path, shortest_path, game_cell, color)
             print("Legend:\n\033[93m#\033[0m: Entry\n\033[95m#\033[0m: Exit\n")
