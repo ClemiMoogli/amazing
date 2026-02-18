@@ -1,6 +1,6 @@
-from typing import TypeAlias, TYPE_CHECKING
-if TYPE_CHECKING:
-    from mazegen.cell import Cell
+from typing import TypeAlias
+
+from mazegen.cell import Cell
 
 Loc: TypeAlias = tuple[int, int]
 
@@ -93,12 +93,12 @@ def convert_path_to_NSWE(shortest_path: list[tuple[int, int]]) -> str:
     path = ""
     for i in range(0, len(shortest_path) - 1):
         curr_x, curr_y = shortest_path[i]
-        if (curr_x + 1, curr_y) == shortest_path[i+1]:
+        if (curr_x + 1, curr_y) == shortest_path[i + 1]:
             path += "E"
-        if (curr_x - 1, curr_y) == shortest_path[i+1]:
+        if (curr_x - 1, curr_y) == shortest_path[i + 1]:
             path += "W"
-        if (curr_x, curr_y + 1) == shortest_path[i+1]:
+        if (curr_x, curr_y + 1) == shortest_path[i + 1]:
             path += "S"
-        if (curr_x, curr_y - 1) == shortest_path[i+1]:
+        if (curr_x, curr_y - 1) == shortest_path[i + 1]:
             path += "N"
     return path

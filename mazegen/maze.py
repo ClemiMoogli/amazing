@@ -18,6 +18,13 @@ class Maze:
         and y as the height. The value is another dictio with identity
         (cell number), used
         for the algo, and the hexa value of the walls.
+
+        eg.:
+        from mazegen.maze import Maze
+        maze = Maze(10, 10, (0, 0), (9, 9))
+        maze.create_perfect_maze()
+        solution = maze.find_shortest_path()
+        print(solution)
         """
         self.show_42 = True
         self.width = width
@@ -134,10 +141,6 @@ class Maze:
     def print_maze(self) -> None:
         """
         Print the maze with the correct format.
-
-        :param maze: the maze dict
-        :param width: width of the maze
-        :param height: height of the maze
         """
 
         for y in range(self.height):

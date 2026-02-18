@@ -1,5 +1,5 @@
 from mazegen.maze import Maze
-from simple_term_menu import TerminalMenu  # type: ignore
+from simple_term_menu import TerminalMenu
 from render.render import print_maze
 from mazegen.solver.bfs import find_neighbors
 from utils.utils import clear_console
@@ -16,7 +16,8 @@ def play_game(maze: Maze, show_path: bool,
 
     while 1:
         game_entry = game_menu.show()
-
+        if game_entry is None:
+            continue
         if options_game[game_entry] == "Up":
             x, y = game_cell
             new_loc = (x, y - 1)
