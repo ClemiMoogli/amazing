@@ -7,7 +7,7 @@ class Config(TypedDict):
     ENTRY: tuple[int, int]
     EXIT: tuple[int, int]
     OUTPUT_FILE: str
-    PERFECT: bool
+    PERFECT: bool | None
 
 
 def read_config_file(file_path: str = "config.txt") -> dict[str, str]:
@@ -41,12 +41,12 @@ def parsing_conversion(dict_config: dict[str, str]) -> Config:
     """A function to cast every config arguments in the
     configuration dictionary."""
     casted_dict: Config = {
-        "WIDTH": 0,
-        "HEIGHT": 0,
-        "ENTRY": (0, 0),
-        "EXIT": (0, 0),
+        "WIDTH": -1,
+        "HEIGHT": -1,
+        "ENTRY": (-1, -1),
+        "EXIT": (-1, -1),
         "OUTPUT_FILE": "",
-        "PERFECT": False,
+        "PERFECT": None,
     }
     for key, value in dict_config.items():
         match key:
@@ -99,6 +99,9 @@ def parsing_verification(casted_dict: Config) -> Config:
     # check OUTPUT_FILE
     if not casted_dict["OUTPUT_FILE"].endswith(".txt"):
         raise ValueError("OUTPUT_FILE must end with .txt")
+    # check PERFECT
+    if casted_dict["PERFECT"] is None:
+        raise ValueError("Invalid config on PERFECT argument.")
     return casted_dict
 
 
