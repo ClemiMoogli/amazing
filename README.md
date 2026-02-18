@@ -111,23 +111,71 @@ We could have adjusted the size of the 42 to match the size of the maze so that 
 We used simple_term_menu to display a menu for selecting options for the maze.
 
 
-# Mazegen module documentation:
 
-To install the mazegen module:
+# Mazegen – Documentation
 
-pip install build
-python3 -m build => to build the package
+## INSTALLATION
 
-pip install dist/mazegen*.whl => to install the wheel
+Build the package from source (from the root of the repository):
 
-# How the Mazegen package work ?
+```
+pip install build 
+python3 -m build
+```
 
+This will generate:
+dist/mazegen-1.0.0-py3-none-any.whl dist/mazegen-1.0.0.tar.gz
+
+Install the generated wheel:
+```pip install dist/mazegen-1.0.0-py3-none-any.whl```
+
+## USAGE
+
+Import the package:
+
+```from mazegen.maze import Maze```
+
+Instantiate a maze
+
+Parameters: 
+- width (int) 
+- height (int) 
+- entry (tuple[int, int]) 
+- exit (tuple[int, int]) 
+- seed (int, optional)
+
+Example:
+
+```maze = Maze(10, 10, (3, 3), (5, 5), seed=1)```
+
+Generate a maze
+
+Perfect maze:
+```maze.create_perfect_maze()```
+
+Imperfect maze:
+```maze.create_imperfect_maze()```
+
+Access the maze structure
+
+The maze structure can be accessed through:
+```maze.maze```
+This returns the internal maze representation.
+
+Find the shortest path
+```path = maze.find_shortest_path()```
+
+The path is a list of coordinates representing the shortest path between
+entry and exit.
+
+
+## Complete example:
+```
 from mazegen.maze import Maze
- 
-          (WIDTH, HEIGHT, ENTRY,  EXIT)
-maze = Maze(10,    10,    (3,3), (5,5))
 
+maze = Maze(10, 10, (0, 0), (9, 9))
 maze.create_perfect_maze()
-maze.create_imperfect_maze()
+solution = maze.find_shortest_path()
 
-path = maze.find_shortest_path()
+print(solution)
+```
